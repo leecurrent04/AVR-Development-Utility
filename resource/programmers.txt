@@ -1,0 +1,12 @@
+arduino,Arduino
+stk500,STK500 as ISP (MiniCore)
+avrisp,AVR ISP (MiniCore)
+avrispmkii,AVRISP mkII (MiniCore)
+usbtinyisp,USBtinyISP (MiniCore)
+usbtinyisp_slow,USBtinyISP slow (MiniCore)
+usbasp,USBasp (MiniCore)
+usbasp_slow,USBasp slow (MiniCore)
+arduinoasisp,Arduino as ISP (MiniCore)
+atmel_ice,Atmel-ICE (AVR) (MiniCore)
+pickit4_isp,PICkit4 (ISP mode) (MiniCore)
+snap_isp,MPLAB SNAP (ISP mode) (MiniCore)
