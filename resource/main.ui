@@ -42,7 +42,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../../../../../.designer/backup/img/ADU.svg</normaloff>../../../../../../../.designer/backup/img/ADU.svg</iconset>
+    <normaloff>../../../../../../../../../../../../.designer/backup/img/ADU.svg</normaloff>../../../../../../../../../../../../.designer/backup/img/ADU.svg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
@@ -60,51 +60,6 @@
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="12" column="0">
      <layout class="QGridLayout" name="mainGrid">
-      <item row="1" column="0">
-       <widget class="QPushButton" name="PB_SelectDirectory">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>1</horstretch>
-          <verstretch>1</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the directory where you want to create the Makefile.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;(Ctrl+D)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>../../../../../../../.designer/backup/img/document-open-symbolic.svg</normaloff>../../../../../../../.designer/backup/img/document-open-symbolic.svg</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>20</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="shortcut">
-         <string>Ctrl+D</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QPushButton" name="PB_makeMakefile">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-          <horstretch>1</horstretch>
-          <verstretch>1</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Make</string>
-        </property>
-        <property name="shortcut">
-         <string>Ctrl+M</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="1">
        <widget class="QLabel" name="label_Directory">
         <property name="sizePolicy">
@@ -123,6 +78,35 @@
         </property>
         <property name="text">
          <string>PATH</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="PB_SelectDirectory">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>1</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the directory where you want to create the Makefile.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;(Ctrl+D)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../../../../../../../../../../../../.designer/backup/img/document-open-symbolic.svg</normaloff>../../../../../../../../../../../../.designer/backup/img/document-open-symbolic.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+D</string>
         </property>
        </widget>
       </item>
@@ -153,11 +137,11 @@
           <bool>false</bool>
          </property>
          <attribute name="title">
-          <string>&amp;AVR</string>
+          <string>&amp;Device</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout_2">
-          <item row="5" column="0">
-           <widget class="QLineEdit" name="LE_avrSearch">
+          <item row="3" column="0">
+           <widget class="QLineEdit" name="LE_DeviceSearch">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>1</horstretch>
@@ -187,12 +171,12 @@
             </property>
            </widget>
           </item>
-          <item row="0" column="0" rowspan="5">
-           <widget class="QTreeWidget" name="TW_avrList">
+          <item row="0" column="0">
+           <widget class="QTreeWidget" name="TW_DeviceList">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>1</horstretch>
-              <verstretch>4</verstretch>
+              <verstretch>15</verstretch>
              </sizepolicy>
             </property>
             <property name="font">
@@ -227,12 +211,12 @@
             </attribute>
             <column>
              <property name="text">
-              <string>AVR NAME</string>
+              <string>NAME</string>
              </property>
             </column>
             <column>
              <property name="text">
-              <string>AVR CODE</string>
+              <string>CODE</string>
              </property>
             </column>
            </widget>
@@ -241,10 +225,15 @@
         </widget>
         <widget class="QWidget" name="TAB_Fuse">
          <attribute name="title">
-          <string comment="List">&amp;Fuse</string>
+          <string comment="List">&amp;Fuses</string>
          </attribute>
         </widget>
-        <widget class="QWidget" name="TAB_Library">
+        <widget class="QWidget" name="TAB_Lockbits">
+         <attribute name="title">
+          <string>Lock &amp;bits</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="TAB_Tool">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>1</horstretch>
@@ -252,159 +241,13 @@
           </sizepolicy>
          </property>
          <attribute name="title">
-          <string>&amp;Library</string>
-         </attribute>
-         <layout class="QGridLayout" name="gridLayout_5">
-          <item row="1" column="1">
-           <layout class="QGridLayout" name="LibraryGrid">
-            <item row="2" column="1">
-             <widget class="QPushButton" name="PB_LibraryInclude">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>2</horstretch>
-                <verstretch>1</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>▼</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QPushButton" name="PB_LibraryExclude">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>2</horstretch>
-                <verstretch>1</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>▲</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="LB_LibraryExclude">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>2</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>Exclude</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0" colspan="2">
-             <widget class="QListWidget" name="LW_LibraryExcludeList">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>2</horstretch>
-                <verstretch>6</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="0" colspan="2">
-             <widget class="QListWidget" name="LW_LibraryIncludeList">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>2</horstretch>
-                <verstretch>6</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="LB_LibraryInclude">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>2</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-                <weight>50</weight>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>Include</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="3" rowspan="4">
-             <widget class="QListWidget" name="LW_DefaultLibrary">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>1</horstretch>
-                <verstretch>1</verstretch>
-               </sizepolicy>
-              </property>
-              <item>
-               <property name="text">
-                <string>UART</string>
-               </property>
-               <property name="checkState">
-                <enum>Checked</enum>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="2" column="2">
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="TAB_Programmer">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>1</horstretch>
-           <verstretch>19</verstretch>
-          </sizepolicy>
-         </property>
-         <attribute name="title">
-          <string>&amp;Programmer</string>
+          <string>&amp;Tool</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout_6">
           <item row="0" column="0">
            <layout class="QGridLayout" name="gridLayout">
-            <item row="7" column="0">
-             <widget class="QLineEdit" name="LE_ProgrammerSelect">
+            <item row="8" column="0">
+             <widget class="QLineEdit" name="LE_ToolSelect">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>13</horstretch>
@@ -414,7 +257,7 @@
              </widget>
             </item>
             <item row="0" column="2">
-             <widget class="QLabel" name="LB_MCU">
+             <widget class="QLabel" name="LB_Device">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>2</horstretch>
@@ -429,12 +272,12 @@
                </font>
               </property>
               <property name="text">
-               <string>MCU</string>
+               <string>Device</string>
               </property>
              </widget>
             </item>
-            <item row="7" column="1">
-             <widget class="QPushButton" name="PB_ProgrammerDelConfigure">
+            <item row="8" column="1">
+             <widget class="QPushButton" name="PB_ToolDelConfigure">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>1</horstretch>
@@ -446,8 +289,8 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="0" rowspan="7" colspan="2">
-             <widget class="QListWidget" name="LW_ProgrammerConfigureList">
+            <item row="0" column="0" rowspan="8" colspan="2">
+             <widget class="QListWidget" name="LW_ToolConfigureList">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>3</horstretch>
@@ -456,15 +299,15 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="3" colspan="2">
-             <widget class="QPushButton" name="PB_ProgrammerAddConfigure">
+            <item row="8" column="3" colspan="2">
+             <widget class="QPushButton" name="PB_ToolAddConfigure">
               <property name="text">
                <string>Add Configure</string>
               </property>
              </widget>
             </item>
             <item row="0" column="4">
-             <widget class="QLabel" name="LB_mcuSelected">
+             <widget class="QLabel" name="LB_DeviceSelected">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>5</horstretch>
@@ -490,7 +333,7 @@
              </widget>
             </item>
             <item row="3" column="4">
-             <widget class="QComboBox" name="CB_ProgrammerBR">
+             <widget class="QComboBox" name="CB_ToolBR">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>5</horstretch>
@@ -564,7 +407,7 @@
              </widget>
             </item>
             <item row="3" column="2">
-             <widget class="QLabel" name="LB_ProgrammerBaudRate">
+             <widget class="QLabel" name="LB_ToolBaudRate">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>2</horstretch>
@@ -584,7 +427,7 @@
              </widget>
             </item>
             <item row="2" column="3">
-             <widget class="QPushButton" name="PB_ProgrammerPortReload">
+             <widget class="QPushButton" name="PB_ToolPortReload">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>1</horstretch>
@@ -599,7 +442,7 @@
               </property>
               <property name="icon">
                <iconset>
-                <normaloff>../../../../../../../.designer/backup/img/view-refresh-symbolic.svg</normaloff>../../../../../../../.designer/backup/img/view-refresh-symbolic.svg</iconset>
+                <normaloff>../../../../../../../../../../../../.designer/backup/img/view-refresh-symbolic.svg</normaloff>../../../../../../../../../../../../.designer/backup/img/view-refresh-symbolic.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -610,7 +453,7 @@
              </widget>
             </item>
             <item row="2" column="4">
-             <widget class="QComboBox" name="CB_ProgrammerPort">
+             <widget class="QComboBox" name="CB_ToolPort">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>5</horstretch>
@@ -623,7 +466,7 @@
              </widget>
             </item>
             <item row="2" column="2">
-             <widget class="QLabel" name="LB_ProgrammerPort">
+             <widget class="QLabel" name="LB_ToolPort">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>2</horstretch>
@@ -643,7 +486,7 @@
              </widget>
             </item>
             <item row="1" column="2">
-             <widget class="QLabel" name="LB_ProgrammerModel">
+             <widget class="QLabel" name="LB_ToolModel">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>2</horstretch>
@@ -658,12 +501,12 @@
                </font>
               </property>
               <property name="text">
-               <string>Programmer</string>
+               <string>Tool</string>
               </property>
              </widget>
             </item>
             <item row="1" column="4">
-             <widget class="QComboBox" name="CB_ProgrammerModel">
+             <widget class="QComboBox" name="CB_ToolModel">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>5</horstretch>
@@ -678,7 +521,7 @@
               </property>
              </widget>
             </item>
-            <item row="6" column="2">
+            <item row="7" column="2">
              <spacer name="verticalSpacer_2">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -691,7 +534,7 @@
               </property>
              </spacer>
             </item>
-            <item row="5" column="2">
+            <item row="6" column="2">
              <spacer name="verticalSpacer">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -704,8 +547,21 @@
               </property>
              </spacer>
             </item>
-            <item row="4" column="2">
+            <item row="5" column="2">
              <spacer name="verticalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="4" column="2">
+             <spacer name="verticalSpacer_13">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -721,14 +577,245 @@
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="TAB_Manual">
+        <widget class="QWidget" name="TAB_Library">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>1</horstretch>
+           <verstretch>19</verstretch>
+          </sizepolicy>
+         </property>
          <attribute name="title">
-          <string>&amp;Maunal Set</string>
+          <string>&amp;Libraries</string>
          </attribute>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="1" column="1">
+           <layout class="QGridLayout" name="LibraryGrid">
+            <property name="horizontalSpacing">
+             <number>6</number>
+            </property>
+            <item row="2" column="3" rowspan="2">
+             <widget class="QListWidget" name="LW_DefaultLibrary">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>6</horstretch>
+                <verstretch>1</verstretch>
+               </sizepolicy>
+              </property>
+              <item>
+               <property name="text">
+                <string>UART</string>
+               </property>
+               <property name="checkState">
+                <enum>Checked</enum>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item row="3" column="0" colspan="2">
+             <widget class="QLineEdit" name="LE_LibrarySelect">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>8</horstretch>
+                <verstretch>1</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QPushButton" name="PB_LibraryDelete">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>1</horstretch>
+                <verstretch>1</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Delete</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0" colspan="3">
+             <widget class="QListWidget" name="LW_LibraryIncludeList">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>1</horstretch>
+                <verstretch>12</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QPushButton" name="PB_LibraryAdd">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>1</horstretch>
+                <verstretch>1</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Library Add</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="TAB_Preview">
+         <attribute name="title">
+          <string>&amp;Preview</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_7">
+          <item row="0" column="0">
+           <layout class="QGridLayout" name="PreviewLayout">
+            <item row="1" column="0" rowspan="9">
+             <widget class="QTextEdit" name="textEdit">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>8</horstretch>
+                <verstretch>1</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QPushButton" name="PB_PreviewLoadConfigure">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>1</horstretch>
+                <verstretch>1</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QPushButton" name="PB_PreviewMakeFile">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                <horstretch>1</horstretch>
+                <verstretch>1</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Make</string>
+              </property>
+              <property name="shortcut">
+               <string>Ctrl+M</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="1">
+             <spacer name="vs4">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="8" column="1">
+             <spacer name="vs2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="9" column="1">
+             <spacer name="vs1">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="7" column="1">
+             <spacer name="vs3">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="5" column="1">
+             <spacer name="vs5">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="4" column="1">
+             <spacer name="vs6">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="2" column="1">
+             <spacer name="vs7">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
         <widget class="QWidget" name="TAB_Serial">
          <attribute name="title">
           <string comment="Information">&amp;Serial Monitor</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="TAB_Info">
+         <attribute name="title">
+          <string>Device &amp;info</string>
          </attribute>
         </widget>
        </widget>

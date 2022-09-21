@@ -35,55 +35,57 @@ class WindowClass(QMainWindow, form_class):
         self.setWindowTitle("AVR Development Utility")
 
         self.PB_SelectDirectory.setIcon(QIcon('resource/img/document-open-symbolic.svg'))
-        self.PB_ProgrammerPortReload.setIcon(QIcon('resource/img/view-refresh-symbolic.svg'))
+        self.PB_ToolPortReload.setIcon(QIcon('resource/img/view-refresh-symbolic.svg'))
+        self.PB_PreviewLoadConfigure.setIcon(QIcon('resource/img/view-refresh-symbolic.svg'))
 
-        # (TAB) AVR SET
-        self.avr_list_load()  # Load the List of AVRs and the List of Programmer
+        # (TAB) Device SET
+        self.device_list_load()  # Load the List of AVRs and the List of Programmer
 
-        # (TAB) Programmer
-        self.programmer_port_load()  # load Port data (ex /dev/ttyUSB0)
+        # (TAB) Tool
+        self.tool_port_load()  # load Port data (ex /dev/ttyUSB0)
         self.statusBar().showMessage(' Set Project Directory')  # Status Bar
 
         # ================================================================================
         # Event
-        self.PB_makeMakefile.clicked.connect(self.make_makefile)                    # When PushB_make clicked -> make Makefile
+        self.PB_PreviewMakeFile.clicked.connect(self.make_makefile)                    # When PushB_make clicked -> make Makefile
 
-        # (TAB) AVR SET
-        self.TW_avrList.currentItemChanged.connect(self.avr_selected_inlist)        # if AVR is first selected or is changed to other AVR
+        # (TAB) Device SET
+        self.TW_DeviceList.currentItemChanged.connect(self.device_selected_inlist)  # if AVR is first selected or is changed to other AVR
         self.PB_SelectDirectory.clicked.connect(self.pb_select_directory_clicked)   # When PushB_Directory clicked
-        self.LE_avrSearch.textChanged.connect(self.le_avr_search_changed)           # When Avr_search changed
-        self.PB_ProgrammerPortReload.clicked.connect(self.programmer_port_load)     # When PushB_PortReload clicked
+        self.LE_DeviceSearch.textChanged.connect(self.le_device_search_changed)     # When Avr_search changed
+        self.PB_ToolPortReload.clicked.connect(self.tool_port_load)                 # When PushB_PortReload clicked
 
         # (TAB) Library
-        self.PB_LibraryInclude.clicked.connect(self.library_include)
-        self.PB_LibraryExclude.clicked.connect(self.library_exclude)
+        self.PB_LibraryAdd.clicked.connect(self.library_add)
+        self.PB_LibraryDelete.clicked.connect(self.library_delete)
+        self.LW_LibraryIncludeList.itemClicked.connect(self.library_selected_inlist)
 
-        # (TAB) Programmer
-        self.PB_ProgrammerAddConfigure.clicked.connect(self.programmer_add_configure)
-        self.LW_ProgrammerConfigureList.itemClicked.connect(self.programmer_configure_select)
-        self.PB_ProgrammerDelConfigure.clicked.connect(self.programmer_delete_configure)
+        # (TAB) Tool
+        self.PB_ToolAddConfigure.clicked.connect(self.tool_add_configure)
+        self.LW_ToolConfigureList.itemClicked.connect(self.tool_configure_select)
+        self.PB_ToolDelConfigure.clicked.connect(self.tool_delete_configure)
 
     # ================================================================================
     # Select Project Directory(Using Dialog)
     def pb_select_directory_clicked(self):
-        tmp = QFileDialog.getExistingDirectory(
+        tmp_directory = QFileDialog.getExistingDirectory(
             self,
             self.tr("Set Project Directory"),
             "../",
             QFileDialog.ShowDirsOnly
         )
-        if tmp != "":
+        if tmp_directory != "":
             global workDirectory
-            workDirectory = tmp
+            workDirectory = tmp_directory
             self.statusBar().showMessage(workDirectory)
             self.label_Directory.setText(workDirectory.split("/")[-1])
 
-        self.library_load()
+        #self.library_load()
 
     # ================================================================================
     # Load the List of AVRs and the List of Programmer
-    def avr_list_load(self):
-        self.TW_avrList.setAlternatingRowColors(True)
+    def device_list_load(self):
+        self.TW_DeviceList.setAlternatingRowColors(True)
 
         with open("./resource/avr_list.txt", 'r') as file:
             lines = file.readlines()
@@ -93,7 +95,7 @@ class WindowClass(QMainWindow, form_class):
                 # make AVR type(e: ATmega, ATtiny etc.)
                 # Don't make same headers
                 if buffer != line.split(",")[0]:
-                    item_top = QTreeWidgetItem(self.TW_avrList)
+                    item_top = QTreeWidgetItem(self.TW_DeviceList)
                     item_top.setText(0, line.split(",")[0])
                     buffer = line.split(",")[0]
 
@@ -104,46 +106,46 @@ class WindowClass(QMainWindow, form_class):
                 sub_item.setText(1, line.split(",")[2][:-1])  # delete \n
                 item_top.addChild(sub_item)
 
-        # load programmers
-        with open("resource/programmers.txt", 'r') as f:
+        # load Tools
+        with open("resource/tools.txt", 'r') as f:
             lines = f.readlines()
             for line in lines:
-                self.CB_ProgrammerModel.addItem(line[:-1].split(",")[1])
+                self.CB_ToolModel.addItem(line[:-1].split(",")[1])
 
     # ================================================================================
     # if AVR is first selected or is changed to other AVR
     # load selected AVR-name from the Tree and change label text
-    def avr_selected_inlist(self):
-        tmp_avr_name = self.TW_avrList.currentItem()
-        if tmp_avr_name != None and tmp_avr_name.text(1) != "":
-            self.LB_mcuSelected.setText(tmp_avr_name.text(0))
-            self.statusBar().showMessage((" {} is selected.".format(tmp_avr_name.text(0))))
+    def device_selected_inlist(self):
+        tmp_device_name = self.TW_DeviceList.currentItem()
+        if tmp_device_name != None and tmp_device_name.text(1) != "":
+            self.LB_DeviceSelected.setText(tmp_device_name.text(0))
+            self.statusBar().showMessage((" {} is selected.".format(tmp_device_name.text(0))))
 
             global avrCode
-            avrCode = self.TW_avrList.currentItem().text(1)
+            avrCode = self.TW_DeviceList.currentItem().text(1)
 
     # ================================================================================
 
-    def le_avr_search_changed(self):
-        self.TW_avrList.clearSelection()
-        self.TW_avrList.collapseAll()
+    def le_device_search_changed(self):
+        self.TW_DeviceList.clearSelection()
+        self.TW_DeviceList.collapseAll()
 
         # check whether Line Edit is blank
-        if self.LE_avrSearch.text() != "":
+        if self.LE_DeviceSearch.text() != "":
             # find top | child
-            tmp_search = self.TW_avrList.findItems(self.LE_avrSearch.text(), Qt.MatchContains | Qt.MatchRecursive, 0)
+            tmp_search = self.TW_DeviceList.findItems(self.LE_DeviceSearch.text(), Qt.MatchContains | Qt.MatchRecursive, 0)
             if tmp_search:
                 for item in tmp_search:
                     item.setSelected(1)
 
                     # if item is already parent
                     try:
-                        self.TW_avrList.expandItem(item.parent())
+                        self.TW_DeviceList.expandItem(item.parent())
                     except Exception as e:
                         continue
 
             # find top
-            tmp_search_top = self.TW_avrList.findItems(self.LE_avrSearch.text(), Qt.MatchContains, 0)
+            tmp_search_top = self.TW_DeviceList.findItems(self.LE_DeviceSearch.text(), Qt.MatchContains, 0)
             if tmp_search_top:
                 for item in tmp_search_top:
                     item.setSelected(0)
@@ -155,73 +157,85 @@ class WindowClass(QMainWindow, form_class):
 
     # ================================================================================
     # (TAB) Library
-    # Library Load
-    def library_load(self):
-        global workDirectory
-        if workDirectory != "":
-            self.LW_LibraryExcludeList.clear()
-            self.LW_LibraryIncludeList.clear()
-
-            # if there aren't directory, make
-            if os.path.exists(workDirectory + "/libraries") != 1:
-                os.mkdir(workDirectory + "/libraries")
-
-            # only load folder
-            for fileList in os.listdir(workDirectory + "/libraries"):
-                if os.path.isdir(workDirectory + "/libraries/" + fileList):
-                    self.LW_LibraryExcludeList.addItem(fileList)
-
-            self.LW_LibraryExcludeList.sortItems()
-
     # library Include (When button is clicked)
-    def library_include(self):
-        tmp_library_name = self.LW_LibraryExcludeList.currentItem()
-        if tmp_library_name != None:
-            self.LW_LibraryIncludeList.addItem(tmp_library_name.text())
-            self.LW_LibraryExcludeList.takeItem(self.LW_LibraryExcludeList.currentRow())
-            self.LW_LibraryIncludeList.sortItems()
-            self.LW_LibraryExcludeList.clearSelection()
+    def library_add(self):
+        # count same libraries
+        same_library_num:int = 0
+
+        # return data : ('[file path]','file type')
+        tmp_files,_ = QFileDialog.getOpenFileNames(
+            self,
+            "Select Library Source Code Files",
+            "./",
+            "C/C++(*.c *.cpp)"
+        )
+
+        # empty list return 0, other return 1
+        if tmp_files:
+            for tmp_file_path in tmp_files:
+                tmp_file_name = "{} ({})".format(tmp_file_path.split("/")[-1],tmp_file_path)
+                same_library = self.LW_LibraryIncludeList.findItems(tmp_file_name,Qt.MatchExactly)
+
+                if same_library:
+                    if same_library[0].text() != tmp_file_name:
+                        self.LW_LibraryIncludeList.addItem(tmp_file_name)
+                    else:
+                        same_library_num += 1
+                else:
+                    self.LW_LibraryIncludeList.addItem(tmp_file_name)
+
+        self.statusBar().showMessage((" Added except for {} duplicate entries.".format(same_library_num)))
+
+    # library Selected
+    def library_selected_inlist(self):
+        tmp_library_selected = self.LW_LibraryIncludeList.currentItem()
+        if tmp_library_selected != None and tmp_library_selected.text() != "":
+            self.LE_LibrarySelect.setText(tmp_library_selected.text())
+            #self.statusBar().showMessage((" {} is selected.".format(tmp_library_selected.text().split(" ")[0])))
 
     # Library Exclude (When button is clicked)
-    def library_exclude(self):
-        tmp_library_name = self.LW_LibraryIncludeList.currentItem()
-        if tmp_library_name != None:
-            self.LW_LibraryExcludeList.addItem(tmp_library_name.text())
-            self.LW_LibraryIncludeList.takeItem(self.LW_LibraryIncludeList.currentRow())
-            self.LW_LibraryExcludeList.sortItems()
-            self.LW_LibraryIncludeList.clearSelection()
+    def library_delete(self):
+        tmp_library_selected = self.LW_LibraryIncludeList.currentItem()
+        if tmp_library_selected!= None:
+            if tmp_library_selected.text() == self.LE_LibrarySelect.text():
+                self.LW_LibraryIncludeList.takeItem(self.LW_LibraryIncludeList.currentRow())
+                self.LE_LibrarySelect.clear()
+
+            self.statusBar().showMessage((" {} is deleted.".format(tmp_library_selected.text().split(" ")[0])))
 
     # ================================================================================
-    # (TAB) Programmer
-    def programmer_add_configure(self):
-        self.LW_ProgrammerConfigureList.addItem(
-            self.CB_ProgrammerModel.currentText() + "," +
-            self.CB_ProgrammerPort.currentText() + "," +
-            self.CB_ProgrammerBR.currentText()
+    # (TAB) Tool
+    def tool_add_configure(self):
+        self.LW_ToolConfigureList.addItem(
+            self.CB_ToolModel.currentText() + "," +
+            self.CB_ToolPort.currentText() + "," +
+            self.CB_ToolBR.currentText()
         )
 
-    def programmer_configure_select(self):
-        self.LE_ProgrammerSelect.setText(
-            self.LW_ProgrammerConfigureList.currentItem().text()
+    def tool_configure_select(self):
+        self.LE_ToolSelect.setText(
+            self.LW_ToolConfigureList.currentItem().text()
         )
 
-    def programmer_delete_configure(self):
+    def tool_delete_configure(self):
         # check selected item and LE time is same
-        tmp_selected_configure = self.LW_ProgrammerConfigureList.currentItem()
+        tmp_selected_configure = self.LW_ToolConfigureList.currentItem()
         if tmp_selected_configure != None:
-            if tmp_selected_configure.text() == self.LE_ProgrammerSelect.text():
-                self.LW_ProgrammerConfigureList.takeItem(self.LW_ProgrammerConfigureList.currentRow())
-                self.LE_ProgrammerSelect.clear()
+            if tmp_selected_configure.text() == self.LE_ToolSelect.text():
+                self.LW_ToolConfigureList.takeItem(self.LW_ToolConfigureList.currentRow())
+                self.LE_ToolSelect.clear()
+
+            self.statusBar().showMessage((" {} is deleted.".format(tmp_selected_configure.text())))
 
     # ================================================================================
-    # Programmer Port Load
-    def programmer_port_load(self):
-        self.CB_ProgrammerPort.clear()
+    # Tool Port Load
+    def tool_port_load(self):
+        self.CB_ToolPort.clear()
 
         # load Port
         for i in os.listdir('/dev'):
             if i[0:6] == "ttyUSB" or i[0:6] == "ttyACM":
-                self.CB_ProgrammerPort.addItem("/dev/" + i)
+                self.CB_ToolPort.addItem("/dev/" + i)
 
     # ================================================================================
     #
