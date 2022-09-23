@@ -1,4 +1,5 @@
 import sys, os, os.path
+from tkinter import W
 # from typing import Set
 
 from PyQt5.QtWidgets import *
@@ -18,7 +19,7 @@ def resource_path(relative_path):
 form_class = uic.loadUiType(resource_path('main.ui'))[0]
 
 # global variable
-avrCode: str = ""  # e: m168(ATmega168)
+avrCode: str = "None"  # e: m168(ATmega168)
 workDirectory: str = ""
 
 
@@ -43,7 +44,7 @@ class WindowClass(QMainWindow, form_class):
 
         # (TAB) Tool
         self.tool_port_load()  # load Port data (ex /dev/ttyUSB0)
-        self.statusBar().showMessage(' Set Project Directory')  # Status Bar
+        self.statusBar().showMessage(" Set Project Directory")  # Status Bar
 
         # ================================================================================
         # Event
@@ -64,6 +65,9 @@ class WindowClass(QMainWindow, form_class):
         self.PB_ToolAddConfigure.clicked.connect(self.tool_add_configure)
         self.LW_ToolConfigureList.itemClicked.connect(self.tool_configure_select)
         self.PB_ToolDelConfigure.clicked.connect(self.tool_delete_configure)
+
+        # (TAB) Preview
+        self.PB_PreviewLoadConfigure.clicked.connect(self.makefile_data_load)
 
     # ================================================================================
     # Select Project Directory(Using Dialog)
@@ -119,7 +123,7 @@ class WindowClass(QMainWindow, form_class):
         tmp_device_name = self.TW_DeviceList.currentItem()
         if tmp_device_name != None and tmp_device_name.text(1) != "":
             self.LB_DeviceSelected.setText(tmp_device_name.text(0))
-            self.statusBar().showMessage((" {} is selected.".format(tmp_device_name.text(0))))
+            self.statusBar().showMessage((" %s is selected."%(tmp_device_name.text(0))))
 
             global avrCode
             avrCode = self.TW_DeviceList.currentItem().text(1)
@@ -150,7 +154,7 @@ class WindowClass(QMainWindow, form_class):
                 for item in tmp_search_top:
                     item.setSelected(0)
 
-            self.statusBar().showMessage((" There are {} match(es).".format(len(tmp_search) - len(tmp_search_top))))
+            self.statusBar().showMessage((" There are %d match(es)."%(len(tmp_search) - len(tmp_search_top))))
 
         else:
             self.statusBar().showMessage(" There are 0 match(es).")
@@ -159,32 +163,29 @@ class WindowClass(QMainWindow, form_class):
     # (TAB) Library
     # library Include (When button is clicked)
     def library_add(self):
-        # count same libraries
-        same_library_num:int = 0
-
         # return data : ('[file path]','file type')
         tmp_files,_ = QFileDialog.getOpenFileNames(
             self,
             "Select Library Source Code Files",
             "./",
-            "C/C++(*.c *.cpp)"
+            "C(*.c)"
         )
 
-        # empty list return 0, other return 1
         if tmp_files:
-            for tmp_file_path in tmp_files:
-                tmp_file_name = "{} ({})".format(tmp_file_path.split("/")[-1],tmp_file_path)
-                same_library = self.LW_LibraryIncludeList.findItems(tmp_file_name,Qt.MatchExactly)
+            overlap_library_num:int = 0
 
-                if same_library:
-                    if same_library[0].text() != tmp_file_name:
-                        self.LW_LibraryIncludeList.addItem(tmp_file_name)
-                    else:
-                        same_library_num += 1
+            for tmp_file in tmp_files:
+                tmp_file_name = "%s (%s)"%(tmp_file.split("/")[-1], tmp_file)
+                overlap_library = self.LW_LibraryIncludeList.findItems(tmp_file_name,Qt.MatchExactly)
+
+                # Check overlap entries
+                if overlap_library:
+                    overlap_library_num += 1
+                # Add files
                 else:
                     self.LW_LibraryIncludeList.addItem(tmp_file_name)
 
-        self.statusBar().showMessage((" Added except for {} duplicate entries.".format(same_library_num)))
+                self.statusBar().showMessage((" Added except for %d duplicate entries."%(overlap_library_num)))
 
     # library Selected
     def library_selected_inlist(self):
@@ -200,8 +201,7 @@ class WindowClass(QMainWindow, form_class):
             if tmp_library_selected.text() == self.LE_LibrarySelect.text():
                 self.LW_LibraryIncludeList.takeItem(self.LW_LibraryIncludeList.currentRow())
                 self.LE_LibrarySelect.clear()
-
-            self.statusBar().showMessage((" {} is deleted.".format(tmp_library_selected.text().split(" ")[0])))
+                self.statusBar().showMessage((" %s is deleted."%(tmp_library_selected.text().split(" ")[0])))
 
     # ================================================================================
     # (TAB) Tool
@@ -225,7 +225,7 @@ class WindowClass(QMainWindow, form_class):
                 self.LW_ToolConfigureList.takeItem(self.LW_ToolConfigureList.currentRow())
                 self.LE_ToolSelect.clear()
 
-            self.statusBar().showMessage((" {} is deleted.".format(tmp_selected_configure.text())))
+            self.statusBar().showMessage((" %s is deleted."%(tmp_selected_configure.text())))
 
     # ================================================================================
     # Tool Port Load
@@ -233,12 +233,61 @@ class WindowClass(QMainWindow, form_class):
         self.CB_ToolPort.clear()
 
         # load Port
-        for i in os.listdir('/dev'):
+        for i in os.listdir("/dev"):
             if i[0:6] == "ttyUSB" or i[0:6] == "ttyACM":
                 self.CB_ToolPort.addItem("/dev/" + i)
 
     # ================================================================================
-    #
+    # (TAB) Preview
+    def makefile_data_load(self):
+        global avrCode
+        make_libraries:str = "" 
+        make_tool:str = ""
+        tmp_old_data:str = ""
+
+        # load libraries
+        for n in range(self.LW_LibraryIncludeList.count()):
+            # name.c (path) -> take path only
+            line,_ = (self.LW_LibraryIncludeList.item(n).text()).split('(')[1].split(')')
+
+            if n+1 == self.LW_LibraryIncludeList.count():
+                make_libraries += "%s"%(line)
+            else:
+                make_libraries += "%s \\\n"%(line)
+        
+        # load tool
+        for n in range(self.LW_ToolConfigureList.count()):
+            # load data
+            tmp_tool,tmp_port,tmp_baudrate = self.LW_ToolConfigureList.item(n).text().split(',')
+
+            # Show error message
+            if avrCode == "None": make_tool += "# [Warning] Check Device again.\n"
+            if tmp_port == "": make_tool += "# [Warning] Check Port again.\n"
+            if tmp_baudrate == "": make_tool += "# [Warning] Check Baudrate again.\n"
+
+            # add upload code
+            make_tool += "upload%d:\n%savrdude -v -p %s -c %s -P %s -b %s -U flash:w:./.out/main.hex:i\n\n"%(n," "*4,avrCode,tmp_tool,tmp_port,tmp_baudrate)
+
+        # Show error message
+        if avrCode == "None": tmp_old_data = "# [Warning] Check Device again."
+        tmp_old_data += """
+            OBJ_FILES=%s
+
+            compile:
+                avr-gcc -Wall -mmcu=%s -Os main.c ${OBJ_FILES} -o ./.out/output.o
+                avr-objcopy -j .text -j .data -O ihex ./.out/output.o ./.out/main.hex
+
+            clean:
+                rm -f ./.out/*.o ./.out/*.hex
+
+            %s
+        """%(make_libraries,avrCode,make_tool)
+
+        # remove tab
+        tmp_file_data = tmp_old_data.replace(" "*12,"")
+
+        self.TE_Preview.setText(tmp_file_data)
+
     def make_makefile(self):
         print("Hey!")
 

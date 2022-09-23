@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>600</height>
+    <width>1000</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -130,7 +130,7 @@
          <cursorShape>ArrowCursor</cursorShape>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="TAB_Avr">
          <property name="autoFillBackground">
@@ -281,7 +281,7 @@
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>1</horstretch>
-                <verstretch>1</verstretch>
+                <verstretch>2</verstretch>
                </sizepolicy>
               </property>
               <property name="text">
@@ -293,14 +293,20 @@
              <widget class="QListWidget" name="LW_ToolConfigureList">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>3</horstretch>
-                <verstretch>5</verstretch>
+                <horstretch>5</horstretch>
+                <verstretch>3</verstretch>
                </sizepolicy>
               </property>
              </widget>
             </item>
             <item row="8" column="3" colspan="2">
              <widget class="QPushButton" name="PB_ToolAddConfigure">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>Add Configure</string>
               </property>
@@ -521,8 +527,21 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="2">
-             <spacer name="verticalSpacer_2">
+            <item row="5" column="2">
+             <spacer name="verticalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="4" column="2">
+             <spacer name="verticalSpacer_13">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -547,21 +566,8 @@
               </property>
              </spacer>
             </item>
-            <item row="5" column="2">
-             <spacer name="verticalSpacer_3">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="4" column="2">
-             <spacer name="verticalSpacer_13">
+            <item row="7" column="2">
+             <spacer name="verticalSpacer_2">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
               </property>
@@ -675,7 +681,7 @@
           <item row="0" column="0">
            <layout class="QGridLayout" name="PreviewLayout">
             <item row="1" column="0" rowspan="9">
-             <widget class="QTextEdit" name="textEdit">
+             <widget class="QTextEdit" name="TE_Preview">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>8</horstretch>
@@ -829,7 +835,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>900</width>
+     <width>1000</width>
      <height>24</height>
     </rect>
    </property>

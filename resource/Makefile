@@ -1,17 +1,12 @@
-MCU=@{ADU_MCU}
-PORT=@{ADU_PORT}
-OBJ_FILES=@{ADU_OBJ_FILES}
-BAUDRATE=@{ADU_BAUDRATE}
-PROGRAMMER=@{ADU_PROGRAMMER}
+LIBRARYIES = library
 
 compile:
-	avr-gcc -Wall -mmcu=${MCU} -Os main.c ${OBJ_FILES} -o ./out/output.o
-
-	avr-objcopy -j .text -j .data -O ihex ./out/output.o ./out/main.hex
-
-upload:
-	avrdude -v -p ${MCU} -c ${PROGRAMMER} -P ${PORT} -b ${BAUDRATE} -U flash:w:./out/main.hex:i
-
+	avr-gcc -Wall -mmcu=None -Os main.c ${LIBRARIES} -o ./.out/output.o
+	avr-objcopy -j .text -j .data -O ihex ./.out/output.o ./.out/main.hex
 
 clean:
-	rm -f ./out/*.o ./out/*.hex
+	rm -f ./.out/*.o ./.out/*.hex
+        
+	
+upload:
+	avrdude -v -p @ADU_MCU@ -c @ADU_TOOL@ -P @ADU_PORT@ -b @ADU_BR@ -U flash:w:./.out/main.hex:i
