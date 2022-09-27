@@ -262,11 +262,17 @@ class WindowClass(QMainWindow, form_class):
 
             # Show error message
             if avrCode == "None": make_tool += "# [Warning] Check Device again.\n"
+
             if tmp_port == "": make_tool += "# [Warning] Check Port again.\n"
+            else: tmp_port = "-P %s "%tmp_port
+
             if tmp_baudrate == "": make_tool += "# [Warning] Check Baudrate again.\n"
+            else: tmp_baudrate = "-b %s "%tmp_baudrate
 
             # add upload code
-            make_tool += "upload%d:\n%savrdude -v -p %s -c %s -P %s -b %s -U flash:w:./.out/main.hex:i\n\n"%(n," "*4,avrCode,tmp_tool,tmp_port,tmp_baudrate)
+            make_tool += "upload%d:\n%savrdude -v -p %s -c %s %s%s-U flash:w:./.out/main.hex:i\n\n"%(
+                n," "*4,avrCode,tmp_tool,tmp_port,tmp_baudrate
+                )
 
         # Show error message
         if avrCode == "None": tmp_old_data = "# [Warning] Check Device again."
