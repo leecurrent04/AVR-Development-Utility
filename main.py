@@ -1,30 +1,28 @@
-import sys, os, os.path
-from tkinter import W
-# from typing import Set
-
+import sys
+import os
+import os.path
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 
+# from resource import sub_tool
 
 # Connect UI file
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     # base_path : py code directory
-    return os.path.join(base_path, "resource/", relative_path)
+    return os.path.join(base_path, "resource/ui/", relative_path)
 
+form_main = uic.loadUiType(resource_path('main.ui'))[0]
 
-form_class = uic.loadUiType(resource_path('main.ui'))[0]
 
 # global variable
-avrCode: str = "None"  # e: m168(ATmega168)
 workDirectory: str = ""
 
 
-# 화면을 띄우는데 사용되는 Class 선언
-class WindowClass(QMainWindow, form_class):
+class WindowMainClass(QMainWindow, form_main):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -48,10 +46,10 @@ class WindowClass(QMainWindow, form_class):
 
         # ================================================================================
         # Event
-        self.PB_PreviewMakeFile.clicked.connect(self.make_makefile)                    # When PushB_make clicked -> make Makefile
+        self.PB_PreviewMakeFile.clicked.connect(self.make_makefile)                 # make Makefile
 
         # (TAB) Device SET
-        self.TW_DeviceList.currentItemChanged.connect(self.device_selected_inlist)  # if AVR is first selected or is changed to other AVR
+        self.TW_DeviceList.currentItemChanged.connect(self.device_selected_inlist)  # AVR is selected or changed
         self.PB_SelectDirectory.clicked.connect(self.pb_select_directory_clicked)   # When PushB_Directory clicked
         self.LE_DeviceSearch.textChanged.connect(self.le_device_search_changed)     # When Avr_search changed
         self.PB_ToolPortReload.clicked.connect(self.tool_port_load)                 # When PushB_PortReload clicked
@@ -84,14 +82,18 @@ class WindowClass(QMainWindow, form_class):
             self.statusBar().showMessage(workDirectory)
             self.label_Directory.setText(workDirectory.split("/")[-1])
 
-        #self.library_load()
+            # make ".out/"
+            if not os.path.isdir("%s/.out" % workDirectory):
+                os.mkdir("%s/.out" % workDirectory)
+
+        # self.library_load()
 
     # ================================================================================
     # Load the List of AVRs and the List of Programmer
     def device_list_load(self):
         self.TW_DeviceList.setAlternatingRowColors(True)
 
-        with open("./resource/avr_list.txt", 'r') as file:
+        with open("./resource/data/avr_list.csv", 'r') as file:
             lines = file.readlines()
             buffer = ""
 
@@ -106,27 +108,31 @@ class WindowClass(QMainWindow, form_class):
                 # add AVR List(e: ATmega328P:m328p)
                 # Make sub Items
                 sub_item = QTreeWidgetItem()
-                sub_item.setText(0, line.split(",")[1])
-                sub_item.setText(1, line.split(",")[2][:-1])  # delete \n
+                sub_item.setText(0, line.split(",")[1][:-1])
+                # sub_item.setText(1, line.split(",")[2][:-1])
                 item_top.addChild(sub_item)
 
         # load Tools
-        with open("resource/tools.txt", 'r') as f:
+        self.CB_ToolModelCode.hide()
+        with open("resource/data/tools.csv", 'r') as f:
             lines = f.readlines()
             for line in lines:
-                self.CB_ToolModel.addItem(line[:-1].split(",")[1])
+                # delete \n
+                tmp_data = line[:-1].split(",")
+
+                # code,category,name,datasheet,default
+                if int(tmp_data[4]):
+                    self.CB_ToolModel.addItem(tmp_data[2])
+                    self.CB_ToolModelCode.addItem(tmp_data[0])
 
     # ================================================================================
     # if AVR is first selected or is changed to other AVR
     # load selected AVR-name from the Tree and change label text
     def device_selected_inlist(self):
         tmp_device_name = self.TW_DeviceList.currentItem()
-        if tmp_device_name != None and tmp_device_name.text(1) != "":
+        if tmp_device_name != None and tmp_device_name.text(0) != "":
             self.LB_DeviceSelected.setText(tmp_device_name.text(0))
             self.statusBar().showMessage((" %s is selected."%(tmp_device_name.text(0))))
-
-            global avrCode
-            avrCode = self.TW_DeviceList.currentItem().text(1)
 
     # ================================================================================
 
@@ -164,7 +170,7 @@ class WindowClass(QMainWindow, form_class):
     # library Include (When button is clicked)
     def library_add(self):
         # return data : ('[file path]','file type')
-        tmp_files,_ = QFileDialog.getOpenFileNames(
+        tmp_files, _ = QFileDialog.getOpenFileNames(
             self,
             "Select Library Source Code Files",
             "./",
@@ -192,7 +198,7 @@ class WindowClass(QMainWindow, form_class):
         tmp_library_selected = self.LW_LibraryIncludeList.currentItem()
         if tmp_library_selected != None and tmp_library_selected.text() != "":
             self.LE_LibrarySelect.setText(tmp_library_selected.text())
-            #self.statusBar().showMessage((" {} is selected.".format(tmp_library_selected.text().split(" ")[0])))
+            # self.statusBar().showMessage((" {} is selected.".format(tmp_library_selected.text().split(" ")[0])))
 
     # Library Exclude (When button is clicked)
     def library_delete(self):
@@ -206,8 +212,10 @@ class WindowClass(QMainWindow, form_class):
     # ================================================================================
     # (TAB) Tool
     def tool_add_configure(self):
+        tmp_tool_model_index = self.CB_ToolModel.currentIndex()
         self.LW_ToolConfigureList.addItem(
             self.CB_ToolModel.currentText() + "," +
+            self.CB_ToolModelCode.itemText(tmp_tool_model_index) + "," +
             self.CB_ToolPort.currentText() + "," +
             self.CB_ToolBR.currentText()
         )
@@ -240,66 +248,81 @@ class WindowClass(QMainWindow, form_class):
     # ================================================================================
     # (TAB) Preview
     def makefile_data_load(self):
-        global avrCode
-        make_libraries:str = "" 
-        make_tool:str = ""
-        tmp_old_data:str = ""
+        make_libraries: str = ""
+        make_tool: str = ""
+        tmp_old_data: str = ""
+        avr_code: str = self.LB_DeviceSelected.text()
 
         # load libraries
         for n in range(self.LW_LibraryIncludeList.count()):
             # name.c (path) -> take path only
-            line,_ = (self.LW_LibraryIncludeList.item(n).text()).split('(')[1].split(')')
+            line, _ = (self.LW_LibraryIncludeList.item(n).text()).split('(')[1].split(')')
 
             if n+1 == self.LW_LibraryIncludeList.count():
-                make_libraries += "%s"%(line)
+                make_libraries += "%s" % line
             else:
-                make_libraries += "%s \\\n"%(line)
+                make_libraries += "%s \\\n" % line
         
         # load tool
         for n in range(self.LW_ToolConfigureList.count()):
             # load data
-            tmp_tool,tmp_port,tmp_baudrate = self.LW_ToolConfigureList.item(n).text().split(',')
+            _, tmp_tool, tmp_port, tmp_baudrate = self.LW_ToolConfigureList.item(n).text().split(',')
 
             # Show error message
-            if avrCode == "None": make_tool += "# [Warning] Check Device again.\n"
+            if avr_code == "None":
+                make_tool += "# [Warning] Check Device again.\n"
 
-            if tmp_port == "": make_tool += "# [Warning] Check Port again.\n"
-            else: tmp_port = "-P %s "%tmp_port
+            if tmp_port == "":
+                make_tool += "# [Warning] Check Port again.\n"
+            else:
+                tmp_port = "-P %s "%tmp_port
 
-            if tmp_baudrate == "": make_tool += "# [Warning] Check Baudrate again.\n"
-            else: tmp_baudrate = "-b %s "%tmp_baudrate
+            if tmp_baudrate == "":
+                make_tool += "# [Warning] Check Baudrate again.\n"
+            else:
+                tmp_baudrate = "-b %s " % tmp_baudrate
 
             # add upload code
-            make_tool += "upload%d:\n%savrdude -v -p %s -c %s %s%s-U flash:w:./.out/main.hex:i\n\n"%(
-                n," "*4,avrCode,tmp_tool,tmp_port,tmp_baudrate
+            make_tool += "upload%d:\n\tavrdude -v -p %s -c %s %s%s-U flash:w:./.out/main.hex:i\n\n" % (
+                n, avr_code, tmp_tool, tmp_port, tmp_baudrate
                 )
 
         # Show error message
-        if avrCode == "None": tmp_old_data = "# [Warning] Check Device again."
+        if avr_code == "None": tmp_old_data = "# [Warning] Check Device again."
         tmp_old_data += """
             OBJ_FILES=%s
 
             compile:
-                avr-gcc -Wall -mmcu=%s -Os main.c ${OBJ_FILES} -o ./.out/output.o
-                avr-objcopy -j .text -j .data -O ihex ./.out/output.o ./.out/main.hex
+            \t@echo "" && date\n
+            \tavr-gcc -Wall -mmcu=%s -Os main.c ${OBJ_FILES} -o ./.out/output.o
+            \tavr-objcopy -j .text -j .data -O ihex ./.out/output.o ./.out/main.hex\n
+            \t@echo "\\n========================================\\n"
+            \t@avr-size -C --mcu=%s ./.out/output.o
 
             clean:
-                rm -f ./.out/*.o ./.out/*.hex
+            \trm -f ./.out/*.o ./.out/*.hex
 
             %s
-        """%(make_libraries,avrCode,make_tool)
+        """ % (make_libraries, avr_code, avr_code, make_tool)
 
         # remove tab
-        tmp_file_data = tmp_old_data.replace(" "*12,"")
+        tmp_file_data = tmp_old_data.replace(" "*12, "")
 
         self.TE_Preview.setText(tmp_file_data)
 
     def make_makefile(self):
-        print("Hey!")
+        if workDirectory != "":
+            with open(("%s/Makefile" % workDirectory), 'w') as fp:
+                fp.write(self.TE_Preview.toPlainText())
+
+            self.statusBar().showMessage("Makefile is generated.")
+
+        else:
+            self.statusBar().showMessage("Work Directory should be defined!")
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    myWindow = WindowClass()
-    myWindow.show()
+    mainWindow = WindowMainClass()
+    mainWindow.show()
     app.exec_()

@@ -44,6 +44,9 @@
    <iconset>
     <normaloff>../../../../../../../../../../../../.designer/backup/img/ADU.svg</normaloff>../../../../../../../../../../../../.designer/backup/img/ADU.svg</iconset>
   </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -130,7 +133,7 @@
          <cursorShape>ArrowCursor</cursorShape>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="TAB_Avr">
          <property name="autoFillBackground">
@@ -511,22 +514,6 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="4">
-             <widget class="QComboBox" name="CB_ToolModel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                <horstretch>5</horstretch>
-                <verstretch>1</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="editable">
-               <bool>false</bool>
-              </property>
-              <property name="currentText">
-               <string/>
-              </property>
-             </widget>
-            </item>
             <item row="5" column="2">
              <spacer name="verticalSpacer_3">
               <property name="orientation">
@@ -578,6 +565,51 @@
                </size>
               </property>
              </spacer>
+            </item>
+            <item row="1" column="3">
+             <widget class="QPushButton" name="PB_ToolModelMore">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>1</horstretch>
+                <verstretch>1</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="4">
+             <widget class="QComboBox" name="CB_ToolModel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>5</horstretch>
+                <verstretch>1</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="editable">
+               <bool>false</bool>
+              </property>
+              <property name="currentText">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="4">
+             <widget class="QComboBox" name="CB_ToolModelCode">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
