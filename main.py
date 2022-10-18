@@ -122,8 +122,8 @@ class WindowMainClass(QMainWindow, form_main):
 
                 # code,category,name,datasheet,default
                 if int(tmp_data[4]):
-                    self.CB_ToolModel.addItem(tmp_data[2])
-                    self.CB_ToolModelCode.addItem(tmp_data[0])
+                    self.CB_ToolModel.addItem(tmp_data[1])
+                    self.CB_ToolModelCode.addItem(tmp_data[2])
 
     # ================================================================================
     # if AVR is first selected or is changed to other AVR
@@ -203,7 +203,10 @@ class WindowMainClass(QMainWindow, form_main):
     # Library Exclude (When button is clicked)
     def library_delete(self):
         tmp_library_selected = self.LW_LibraryIncludeList.currentItem()
+
+        # check if current item is null
         if tmp_library_selected!= None:
+            # check if selected item nas LE item is same
             if tmp_library_selected.text() == self.LE_LibrarySelect.text():
                 self.LW_LibraryIncludeList.takeItem(self.LW_LibraryIncludeList.currentRow())
                 self.LE_LibrarySelect.clear()
@@ -226,14 +229,16 @@ class WindowMainClass(QMainWindow, form_main):
         )
 
     def tool_delete_configure(self):
-        # check selected item and LE time is same
         tmp_selected_configure = self.LW_ToolConfigureList.currentItem()
+
+        # check if current item is null
         if tmp_selected_configure != None:
+            # check if selected item and LE itme is same
             if tmp_selected_configure.text() == self.LE_ToolSelect.text():
                 self.LW_ToolConfigureList.takeItem(self.LW_ToolConfigureList.currentRow())
                 self.LE_ToolSelect.clear()
 
-            self.statusBar().showMessage((" %s is deleted."%(tmp_selected_configure.text())))
+                self.statusBar().showMessage((" %s is deleted."%(tmp_selected_configure.text())))
 
     # ================================================================================
     # Tool Port Load
@@ -261,7 +266,7 @@ class WindowMainClass(QMainWindow, form_main):
             if n+1 == self.LW_LibraryIncludeList.count():
                 make_libraries += "%s" % line
             else:
-                make_libraries += "%s \\\n" % line
+                make_libraries += "%s \\\n\t" % line
         
         # load tool
         for n in range(self.LW_ToolConfigureList.count()):
@@ -308,17 +313,24 @@ class WindowMainClass(QMainWindow, form_main):
         # remove tab
         tmp_file_data = tmp_old_data.replace(" "*12, "")
 
+        # show preview
         self.TE_Preview.setText(tmp_file_data)
 
     def make_makefile(self):
+        # Check whether user has selected directory
         if workDirectory != "":
-            with open(("%s/Makefile" % workDirectory), 'w') as fp:
-                fp.write(self.TE_Preview.toPlainText())
+            # Check whether directory exists
+            if os.path.isdir(workDirectory):
+                with open(("%s/Makefile" % workDirectory), 'w') as fp:
+                    fp.write(self.TE_Preview.toPlainText())
 
-            self.statusBar().showMessage("Makefile is generated.")
+                self.statusBar().showMessage("Makefile is generated.")
+
+            else:
+                self.statusBar().showMessage("Work Directory does not exist")
 
         else:
-            self.statusBar().showMessage("Work Directory should be defined!")
+            self.statusBar().showMessage("You must define Work Directory")
 
 
 if __name__ == "__main__":

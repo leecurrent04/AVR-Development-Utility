@@ -1,10 +1,19 @@
 # Update Log
 
+
+## 2022.10.18
+
+- Improve visibility of library list in Preview.
+- Fix bug when making Makefile while work directory doesn't exist.
+- Divide Programming tabs and Information tabs.
+
+<br>
+
 ## 2022.10.17
 
-- Fix making Makefile fuction
-- Fix Avr list bugs
-- Auto run mkdir ".out/" when define project path
+- Fix making Makefile function.
+- Fix wrong AVR code list.
+- Auto run mkdir ".out/" when select work directory(project path).
 
 <br>
 
@@ -18,10 +27,10 @@
 
 # Next update Note
 
-- [ ] Tool model tree
-- [ ] Fues bits
+- [ ] New UI and window for programmer tool
+- [ ] Fuse bits
 - [ ] Lock bits
 - [ ] Serial Monitor
-- [ ] MCU infomation
-- [ ] Divide Configure tabs and Information tabs(Serial,MCU Information)
-- [ ] Basic Libraries
+- [ ] MCU information(Device Info)
+- [ ] Basic Libraries(ex. UART)
+- [x] Divide Programming tabs and Information tabs(ex. Serial Monitor,Device Info)
