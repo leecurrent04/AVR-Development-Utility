@@ -247,7 +247,7 @@
                 </column>
                 <column>
                  <property name="text">
-                  <string>CODE</string>
+                  <string>Datasheet</string>
                  </property>
                 </column>
                </widget>
@@ -381,7 +381,7 @@
                    <bool>true</bool>
                   </property>
                   <property name="currentText">
-                   <string/>
+                   <string>115200</string>
                   </property>
                   <property name="currentIndex">
                    <number>9</number>

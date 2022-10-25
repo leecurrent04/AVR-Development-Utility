@@ -2,7 +2,7 @@
 
 <img src="/resource/img/ADU.svg" width="50%" height="50%">
 
-ADU is an AVR Development Utility for Linux. It helps you make Makefile, including data such as Fuse bits, Lock bits, Libraries, Programmers.
+ADU is an AVR Development Utility for Linux. It helps you make Makefile, including data such as Fuse bits, Lock bits, Libraries and Programmers.
 
 <br>
 

@@ -1,5 +1,12 @@
 # Update Log
 
+## 2022.10.25
+
+- Add new function: scroll to item when device name is searched.
+- Fix main tab as Device selection.
+- Modify to load Makefile resource when making Makefile.
+
+<br>
 
 ## 2022.10.18
 
@@ -11,16 +18,16 @@
 
 ## 2022.10.17
 
-- Fix making Makefile function.
+- Modify making Makefile function.
 - Fix wrong AVR code list.
-- Auto run mkdir ".out/" when select work directory(project path).
+- Add new function: Auto run mkdir ".out/" when select work directory(project path).
 
 <br>
 
 ## 2022.09.28
 
-- Tool model data file modified to CSV file.
-- Tool model code bug fixed.
+- Modify Tool model data file as CSV file.
+- Fix bug about Tool model code.
 
 <br>
 

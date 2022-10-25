@@ -6,7 +6,6 @@ from PyQt5.QtGui import *
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 
-# from resource import sub_tool
 
 # Connect UI file
 def resource_path(relative_path):
@@ -15,8 +14,9 @@ def resource_path(relative_path):
     # base_path : py code directory
     return os.path.join(base_path, "resource/ui/", relative_path)
 
-form_main = uic.loadUiType(resource_path('main.ui'))[0]
 
+form_main = uic.loadUiType(resource_path('main.ui'))[0]
+form_tool = uic.loadUiType(resource_path('sub_tool.ui'))[0]
 
 # global variable
 workDirectory: str = ""
@@ -25,6 +25,7 @@ workDirectory: str = ""
 class WindowMainClass(QMainWindow, form_main):
     def __init__(self):
         super().__init__()
+        self.second = None
         self.setupUi(self)
 
         # ================================================================================
@@ -36,6 +37,11 @@ class WindowMainClass(QMainWindow, form_main):
         self.PB_SelectDirectory.setIcon(QIcon('resource/img/document-open-symbolic.svg'))
         self.PB_ToolPortReload.setIcon(QIcon('resource/img/view-refresh-symbolic.svg'))
         self.PB_PreviewLoadConfigure.setIcon(QIcon('resource/img/view-refresh-symbolic.svg'))
+
+        # set TAB Current Index
+        self.MainTab.setCurrentIndex(0)
+        self.Programming.setCurrentIndex(0)
+        self.Information.setCurrentIndex(0)
 
         # (TAB) Device SET
         self.device_list_load()  # Load the List of AVRs and the List of Programmer
@@ -63,6 +69,7 @@ class WindowMainClass(QMainWindow, form_main):
         self.PB_ToolAddConfigure.clicked.connect(self.tool_add_configure)
         self.LW_ToolConfigureList.itemClicked.connect(self.tool_configure_select)
         self.PB_ToolDelConfigure.clicked.connect(self.tool_delete_configure)
+        self.PB_ToolModelMore.clicked.connect(self.tool_more_load)
 
         # (TAB) Preview
         self.PB_PreviewLoadConfigure.clicked.connect(self.makefile_data_load)
@@ -121,7 +128,7 @@ class WindowMainClass(QMainWindow, form_main):
                 tmp_data = line[:-1].split(",")
 
                 # code,category,name,datasheet,default
-                if int(tmp_data[4]):
+                if int(tmp_data[3]):
                     self.CB_ToolModel.addItem(tmp_data[1])
                     self.CB_ToolModelCode.addItem(tmp_data[2])
 
@@ -135,6 +142,7 @@ class WindowMainClass(QMainWindow, form_main):
             self.statusBar().showMessage((" %s is selected."%(tmp_device_name.text(0))))
 
     # ================================================================================
+    # device search
 
     def le_device_search_changed(self):
         self.TW_DeviceList.clearSelection()
@@ -147,6 +155,7 @@ class WindowMainClass(QMainWindow, form_main):
             if tmp_search:
                 for item in tmp_search:
                     item.setSelected(1)
+                    self.TW_DeviceList.scrollToItem(item)
 
                     # if item is already parent
                     try:
@@ -160,7 +169,7 @@ class WindowMainClass(QMainWindow, form_main):
                 for item in tmp_search_top:
                     item.setSelected(0)
 
-            self.statusBar().showMessage((" There are %d match(es)."%(len(tmp_search) - len(tmp_search_top))))
+            self.statusBar().showMessage((" There are %d match(es)." % (len(tmp_search) - len(tmp_search_top))))
 
         else:
             self.statusBar().showMessage(" There are 0 match(es).")
@@ -181,8 +190,8 @@ class WindowMainClass(QMainWindow, form_main):
             overlap_library_num:int = 0
 
             for tmp_file in tmp_files:
-                tmp_file_name = "%s (%s)"%(tmp_file.split("/")[-1], tmp_file)
-                overlap_library = self.LW_LibraryIncludeList.findItems(tmp_file_name,Qt.MatchExactly)
+                tmp_file_name = "%s (%s)" % (tmp_file.split("/")[-1], tmp_file)
+                overlap_library = self.LW_LibraryIncludeList.findItems(tmp_file_name, Qt.MatchExactly)
 
                 # Check overlap entries
                 if overlap_library:
@@ -191,7 +200,7 @@ class WindowMainClass(QMainWindow, form_main):
                 else:
                     self.LW_LibraryIncludeList.addItem(tmp_file_name)
 
-                self.statusBar().showMessage((" Added except for %d duplicate entries."%(overlap_library_num)))
+                self.statusBar().showMessage((" Added except for %d duplicate entries." % overlap_library_num))
 
     # library Selected
     def library_selected_inlist(self):
@@ -241,6 +250,18 @@ class WindowMainClass(QMainWindow, form_main):
                 self.statusBar().showMessage((" %s is deleted."%(tmp_selected_configure.text())))
 
     # ================================================================================
+    # load sub window
+
+    def tool_more_load(self):
+        print("clicked")
+        # self.hide()
+        self.second = ToolWindow()
+        # self.second.show()
+        print(self.second.LB_SelectedTool.text())
+        # self.second.exec()
+        # self.show()
+
+    # ================================================================================
     # Tool Port Load
     def tool_port_load(self):
         self.CB_ToolPort.clear()
@@ -255,7 +276,7 @@ class WindowMainClass(QMainWindow, form_main):
     def makefile_data_load(self):
         make_libraries: str = ""
         make_tool: str = ""
-        tmp_old_data: str = ""
+        tmp_file_data: str = ""
         avr_code: str = self.LB_DeviceSelected.text()
 
         # load libraries
@@ -280,7 +301,7 @@ class WindowMainClass(QMainWindow, form_main):
             if tmp_port == "":
                 make_tool += "# [Warning] Check Port again.\n"
             else:
-                tmp_port = "-P %s "%tmp_port
+                tmp_port = "-P %s " % tmp_port
 
             if tmp_baudrate == "":
                 make_tool += "# [Warning] Check Baudrate again.\n"
@@ -288,30 +309,16 @@ class WindowMainClass(QMainWindow, form_main):
                 tmp_baudrate = "-b %s " % tmp_baudrate
 
             # add upload code
-            make_tool += "upload%d:\n\tavrdude -v -p %s -c %s %s%s-U flash:w:./.out/main.hex:i\n\n" % (
+            make_tool += "upload%d:\n\tavrdude -v -p %s -c %s %s%s-U flash:w:./.out/main.hex:i\n\n\n" % (
                 n, avr_code, tmp_tool, tmp_port, tmp_baudrate
                 )
 
         # Show error message
-        if avr_code == "None": tmp_old_data = "# [Warning] Check Device again."
-        tmp_old_data += """
-            OBJ_FILES=%s
+        if avr_code == "None":
+            tmp_file_data = "# [Warning] Check Device again.\n"
 
-            compile:
-            \t@echo "" && date\n
-            \tavr-gcc -Wall -mmcu=%s -Os main.c ${OBJ_FILES} -o ./.out/output.o
-            \tavr-objcopy -j .text -j .data -O ihex ./.out/output.o ./.out/main.hex\n
-            \t@echo "\\n========================================\\n"
-            \t@avr-size -C --mcu=%s ./.out/output.o
-
-            clean:
-            \trm -f ./.out/*.o ./.out/*.hex
-
-            %s
-        """ % (make_libraries, avr_code, avr_code, make_tool)
-
-        # remove tab
-        tmp_file_data = tmp_old_data.replace(" "*12, "")
+        with open("./resource/data/Makefile", 'r') as tmp_resource:
+            tmp_file_data += tmp_resource.read() % (make_libraries, avr_code, avr_code, make_tool)
 
         # show preview
         self.TE_Preview.setText(tmp_file_data)
@@ -331,6 +338,23 @@ class WindowMainClass(QMainWindow, form_main):
 
         else:
             self.statusBar().showMessage("You must define Work Directory")
+
+
+class ToolWindow(QMainWindow, form_tool):
+    def __init__(self):
+        super(ToolWindow, self).__init__()
+        self.setupUi(self)
+        # self.show()
+        # self.connect(ButtonBox,)
+        # print(WindowMainClass().LB_DeviceSelected.text())
+
+    def return_tool(self):
+        tmp_tool = self.LB_SelectedTool.text()
+        if tmp_tool != "None":
+            if tmp_tool.split(',')[0] == "1":
+                return tmp_tool
+            else:
+                return 0
 
 
 if __name__ == "__main__":

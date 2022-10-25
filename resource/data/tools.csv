@@ -1,108 +1,108 @@
-Arduino,alias for arduino-ft232r,diecimila,,0
-Arduino,Arduino,arduino,,1
-Arduino,Arduino: FT232R connected to ISP,arduino-ft232r,,0
-Atmel,Atmel AppNote AVR109 BootLoader,avr109,,0
-Atmel,Atmel AppNote AVR911 AVROSP,avr911,,0
-Atmel,Atmel AT89 ISP cable,89isp,,0
-Atmel,Atmel Butterfly Development Board,butterfly,,0
-Atmel,Atmel Low Cost Serial Programmer,avr910,,0
-Atmel Dragon,Atmel AVR Dragon in debug Wire mode,dragon_dw,,0
-Atmel Dragon,Atmel AVR Dragon in HVSP mode,dragon_hvsp,,0
-Atmel Dragon,Atmel AVR Dragon in ISP mode,dragon_isp,,0
-Atmel Dragon,Atmel AVR Dragon in JTAG mode,dragon_jtag,,0
-Atmel Dragon,Atmel AVR Dragon in PDI mode,dragon_pdi,,0
-Atmel Dragon,Atmel AVR Dragon in PP mode,dragon_pp,,0
-Atmel ICE,Atmel-ICE(ARM/AVR) in debug WIRE mode,atmelice_dw,,0
-Atmel ICE,Atmel-ICE(ARM/AVR) in ISP mode,atmelice_isp,,0
-Atmel ICE,Atmel-ICE(ARM/AVR) in JTAG mode,atmelice,,1
-Atmel ICE,Atmel-ICE(ARM/AVR) in PDI mode,atmelice_pdi,,0
-Atmel ICE,Atmel-ICE(ARM/AVR) in UPDI mode,atmelice_updi,,0
-Atmel ISP,Atmel AVR ISP,avrisp,,1
-Atmel ISP,Atmel AVR ISP mkII,avrisp2,,0
-Atmel ISP,Atmel AVR ISP mkII,avrispmkII,,1
-Atmel ISP,Atmel AVR ISP V2,avrispv2,,0
-Atmel JTAG ICE,Atmel JTAG ICE (mkI),jtag1,,0
-Atmel JTAG ICE,Atmel JTAG ICE (mkI),jtagmkI,,0
-Atmel JTAG ICE,Atmel JTAG ICE (mkI) slow,jtag1slow,,0
-Atmel JTAG ICE,Atmel JTAG ICE mkII,jtag2,,0
-Atmel JTAG ICE,Atmel JTAG ICE mkII,jtagmkII,,0
-Atmel JTAG ICE,Atmel JTAG ICE mkII Fast,jtag2fast,,0
-Atmel JTAG ICE,Atmel JTAG ICE mkII in AVR32 mode,jtag2avr32,,0
-Atmel JTAG ICE,Atmel JTAG ICE mkII in AVR32 mode,jtagmkII_avr32,,0
-Atmel JTAG ICE,Atmel JTAG ICE mkII in debug Wire mode,jtag2dw,,0
-Atmel JTAG ICE,Atmel JTAG ICE mkII in ISP mode,jtag2isp,,0
-Atmel JTAG ICE,Atmel JTAG ICE mkII PDI mode,jtag2pdi,,0
-Atmel JTAG ICE,Atmel JTAG ICE mkII Slow,jtag2slow,,0
-Atmel JTAG ICE,Atmel JTAG ICE3 in debug WIRE mode,jtag3dw,,0
-Atmel JTAG ICE,Atmel JTAG ICE3 in ISP mode,jtag3isp,,0
-Atmel JTAG ICE,Atmel JTAG ICE3 in JTAG mode,jtag3,,0
-Atmel JTAG ICE,Atmel JTAG ICE3 in PDI mode,jtag3pdi,,0
-Atmel PowerDebugger,Atmel PowerDebugger (ARM/AVR) in debug Wire mode,powerdebugger_dw,,0
-Atmel PowerDebugger,Atmel PowerDebugger (ARM/AVR) in ISP mode,powerdebugger_isp,,0
-Atmel PowerDebugger,Atmel PowerDebugger (ARM/AVR) in JTAG mode,powerdebugger,,0
-Atmel PowerDebugger,Atmel PowerDebugger (ARM/AVR) in PDI mode,powerdebugger_pdi,,0
-Atmel PowerDebugger,Atmel PowerDebugger (ARM/AVR) in UPDI mode,powerdebugger_updi,,0
-Atmel Xplained,Atmel AVR Xplained Mini in debug WIRE mode,xplainedmini_dw,,0
-Atmel Xplained,Atmel AVR Xplained Mini in ISP mode,xplainedmini,,0
-Atmel Xplained,Atmel AVR Xplained Mini in UPDI mode,xplainedmini_updi,,0
-Atmel Xplained,Atmel AVR Xplained Pro in JTAG mode,xplainedpro,,0
-Atmel Xplained,Atmel AVR Xplained Pro in UPDI mode,xplainedpro_updi,,0
-Default,USBasp,usbasp,,1
-Default,USBtiny,usbtiny,,1
-FTDI,FT2232D based generic programmer,avrftdi,,0
-FTDI,FT2232H based generic programmer,2232HIO,,0
-FTDI,FT232H (based module from FTDI and Glyn.com.au),UM232H,,0
-FTDI,FT232H (based module from FTDI and Glyn.com.au),C232HM,,0
-FTDI,FT232R Synchronous BitBang,ft232r,,0
-FTDI,FT245R Synchronous BitBang,ft245r,,0
-FTDI,FT4232H based generic programmer,4232h,,0
-FTDI,FTDI TTL232R (5V with ICSP adapter),ttl232r,,0
-other,ABC mini Board (Dick Smith HOT CHIP),abcmini,,0
-other,Altera Byte Blaster,blaster,,0
-other,Amontec JTAG Key (Tiny and Key2),jtagkey,,0
-other,Any usbasp clone with correct VID/PID,usbasp-clone,,0
-other,AT-ISP V1.1 programming cable for AVR-SDK1,atisp,,0
-other,Bascom SAMPLE programming cable,bascom,,0
-other,BitWizard FTDI Atmega built in programmer,bwmega,,0
-other,Brian Dean's Programmer,bsd,,0
-other,Crossbow MIB510 programming board,mib510,,0
-other,Direct AVR Parallel Accesscable,dapa,,0
-other,Dontronics DT006,dt006,,0
-other,EREISP-AVR,ere-isp-avr,,0
-other,FLIP USB DFU protocol version1(doc7618),flip1,,0
-other,FLIP USB DFU protocol version2(AVR4023),flip2,,0
-other,Frank STK200,frank-stk200,,0
-other,Futurlec programming cable,futurlec,,0
-other,HaJo AVR ISP Programmer,ehajo-isp,,0
-other,JasonKyle's pAVR Serial,pavr,,0
-other,Lancos SI Programmer,siprog,,0
-other,Luminary Micro LM3S811 Eval Board (Rev.A),lm3s811,,0
-other,MicroChip's PIC kit2,pickit2,,0
-other,Mikrokopter.de Butterfly,butterfly_mk,,0
-other,Mikrokopter.de Butterfly,mkbutterfly,,0
-other,NIBObee,nibobee,,0
-other,Nightshade ALF-Pgm AVR,alf,,0
-other,O-Link OpenJTAG,o-link,,0
-other,Openmoko debug board (v3),openmoko,,0
-other,Pico web Programming Cable,picoweb,,0
-other,"PonyProg Serial (reset=!txd sck=rts mosi=dtr miso=cts),ponyser,,0
-other,PonyProg STK200,pony-stk200,,0
-other,serial port banging (reset=!dtr sck=rts mosi=txd miso=cts),dasa3,,0
-other,serial port banging (reset=dtr sck=!rts mosi=!txd miso=!cts),c2n232i,,0
-other,serial port banging (reset=rts sck=dtr mosi=txd miso=cts),dasa,,0
-other,Steve Bolt's Programmer,sp12,,0
-other,The Bus Pirate,buspirate,,0
-other,The Bus Pirate (bitbang interface supports TPI),buspirate_bb,,0
-other,TIAO USB Multi-Protocol Adapter,tumpa,,0
-other,uncompatino with all pairs of pins shorted,uncompatino,,0
-other,Wiring,wiring,,0
-other,Xilinx JTAG cable,xil,,0
-STK Series,STK200,stk200,,0
-STK Series,STK500,stk500,,1
-STK Series,STK500 Version1.xfirmware,stk500v1,,0
-STK Series,STK500 Version2.xfirmware,stk500v2,,0
-STK Series,STK500V2(high-voltage serial programming mode),stk500hvsp,,0
-STK Series,STK500V2(parallel programming mode),stk500pp,,0
-STK Series,STK600,stk600,,0
-STK Series,STK600 (high-voltage serial programming mode),stk600hvsp,,0
-STK Series,STK600 (parallel programming mode),stk600pp,,0
+Arduino,alias for arduino-ft232r,diecimila,0
+Arduino,Arduino,arduino,1
+Arduino,Arduino: FT232R connected to ISP,arduino-ft232r,0
+Atmel,Atmel AppNote AVR109 BootLoader,avr109,0
+Atmel,Atmel AppNote AVR911 AVROSP,avr911,0
+Atmel,Atmel AT89 ISP cable,89isp,0
+Atmel,Atmel Butterfly Development Board,butterfly,0
+Atmel,Atmel Low Cost Serial Programmer,avr910,0
+Atmel Dragon,Atmel AVR Dragon in debug Wire mode,dragon_dw,0
+Atmel Dragon,Atmel AVR Dragon in HVSP mode,dragon_hvsp,0
+Atmel Dragon,Atmel AVR Dragon in ISP mode,dragon_isp,0
+Atmel Dragon,Atmel AVR Dragon in JTAG mode,dragon_jtag,0
+Atmel Dragon,Atmel AVR Dragon in PDI mode,dragon_pdi,0
+Atmel Dragon,Atmel AVR Dragon in PP mode,dragon_pp,0
+Atmel ICE,Atmel-ICE(ARM/AVR) in debug WIRE mode,atmelice_dw,0
+Atmel ICE,Atmel-ICE(ARM/AVR) in ISP mode,atmelice_isp,0
+Atmel ICE,Atmel-ICE(ARM/AVR) in JTAG mode,atmelice,1
+Atmel ICE,Atmel-ICE(ARM/AVR) in PDI mode,atmelice_pdi,0
+Atmel ICE,Atmel-ICE(ARM/AVR) in UPDI mode,atmelice_updi,0
+Atmel ISP,Atmel AVR ISP,avrisp,1
+Atmel ISP,Atmel AVR ISP mkII,avrisp2,0
+Atmel ISP,Atmel AVR ISP mkII,avrispmkII,1
+Atmel ISP,Atmel AVR ISP V2,avrispv2,0
+Atmel JTAG ICE,Atmel JTAG ICE (mkI),jtag1,0
+Atmel JTAG ICE,Atmel JTAG ICE (mkI),jtagmkI,0
+Atmel JTAG ICE,Atmel JTAG ICE (mkI) slow,jtag1slow,0
+Atmel JTAG ICE,Atmel JTAG ICE mkII,jtag2,0
+Atmel JTAG ICE,Atmel JTAG ICE mkII,jtagmkII,0
+Atmel JTAG ICE,Atmel JTAG ICE mkII Fast,jtag2fast,0
+Atmel JTAG ICE,Atmel JTAG ICE mkII in AVR32 mode,jtag2avr32,0
+Atmel JTAG ICE,Atmel JTAG ICE mkII in AVR32 mode,jtagmkII_avr32,0
+Atmel JTAG ICE,Atmel JTAG ICE mkII in debug Wire mode,jtag2dw,0
+Atmel JTAG ICE,Atmel JTAG ICE mkII in ISP mode,jtag2isp,0
+Atmel JTAG ICE,Atmel JTAG ICE mkII PDI mode,jtag2pdi,0
+Atmel JTAG ICE,Atmel JTAG ICE mkII Slow,jtag2slow,0
+Atmel JTAG ICE,Atmel JTAG ICE3 in debug WIRE mode,jtag3dw,0
+Atmel JTAG ICE,Atmel JTAG ICE3 in ISP mode,jtag3isp,0
+Atmel JTAG ICE,Atmel JTAG ICE3 in JTAG mode,jtag3,0
+Atmel JTAG ICE,Atmel JTAG ICE3 in PDI mode,jtag3pdi,0
+Atmel PowerDebugger,Atmel PowerDebugger (ARM/AVR) in debug Wire mode,powerdebugger_dw,0
+Atmel PowerDebugger,Atmel PowerDebugger (ARM/AVR) in ISP mode,powerdebugger_isp,0
+Atmel PowerDebugger,Atmel PowerDebugger (ARM/AVR) in JTAG mode,powerdebugger,0
+Atmel PowerDebugger,Atmel PowerDebugger (ARM/AVR) in PDI mode,powerdebugger_pdi,0
+Atmel PowerDebugger,Atmel PowerDebugger (ARM/AVR) in UPDI mode,powerdebugger_updi,0
+Atmel Xplained,Atmel AVR Xplained Mini in debug WIRE mode,xplainedmini_dw,0
+Atmel Xplained,Atmel AVR Xplained Mini in ISP mode,xplainedmini,0
+Atmel Xplained,Atmel AVR Xplained Mini in UPDI mode,xplainedmini_updi,0
+Atmel Xplained,Atmel AVR Xplained Pro in JTAG mode,xplainedpro,0
+Atmel Xplained,Atmel AVR Xplained Pro in UPDI mode,xplainedpro_updi,0
+Default,USBasp,usbasp,1
+Default,USBtiny,usbtiny,1
+FTDI,FT2232D based generic programmer,avrftdi,0
+FTDI,FT2232H based generic programmer,2232HIO,0
+FTDI,FT232H (based module from FTDI and Glyn.com.au),UM232H,0
+FTDI,FT232H (based module from FTDI and Glyn.com.au),C232HM,0
+FTDI,FT232R Synchronous BitBang,ft232r,0
+FTDI,FT245R Synchronous BitBang,ft245r,0
+FTDI,FT4232H based generic programmer,4232h,0
+FTDI,FTDI TTL232R (5V with ICSP adapter),ttl232r,0
+other,ABC mini Board (Dick Smith HOT CHIP),abcmini,0
+other,Altera Byte Blaster,blaster,0
+other,Amontec JTAG Key (Tiny and Key2),jtagkey,0
+other,Any usbasp clone with correct VID/PID,usbasp-clone,0
+other,AT-ISP V1.1 programming cable for AVR-SDK1,atisp,0
+other,Bascom SAMPLE programming cable,bascom,0
+other,BitWizard FTDI Atmega built in programmer,bwmega,0
+other,Brian Dean's Programmer,bsd,0
+other,Crossbow MIB510 programming board,mib510,0
+other,Direct AVR Parallel Accesscable,dapa,0
+other,Dontronics DT006,dt006,0
+other,EREISP-AVR,ere-isp-avr,0
+other,FLIP USB DFU protocol version1(doc7618),flip1,0
+other,FLIP USB DFU protocol version2(AVR4023),flip2,0
+other,Frank STK200,frank-stk200,0
+other,Futurlec programming cable,futurlec,0
+other,HaJo AVR ISP Programmer,ehajo-isp,0
+other,JasonKyle's pAVR Serial,pavr,0
+other,Lancos SI Programmer,siprog,0
+other,Luminary Micro LM3S811 Eval Board (Rev.A),lm3s811,0
+other,MicroChip's PIC kit2,pickit2,0
+other,Mikrokopter.de Butterfly,butterfly_mk,0
+other,Mikrokopter.de Butterfly,mkbutterfly,0
+other,NIBObee,nibobee,0
+other,Nightshade ALF-Pgm AVR,alf,0
+other,O-Link OpenJTAG,o-link,0
+other,Openmoko debug board (v3),openmoko,0
+other,Pico web Programming Cable,picoweb,0
+other,PonyProg Serial (reset=!txd sck=rts mosi=dtr miso=cts),ponyser,0
+other,PonyProg STK200,pony-stk200,0
+other,serial port banging (reset=!dtr sck=rts mosi=txd miso=cts),dasa3,0
+other,serial port banging (reset=dtr sck=!rts mosi=!txd miso=!cts),c2n232i,0
+other,serial port banging (reset=rts sck=dtr mosi=txd miso=cts),dasa,0
+other,Steve Bolt's Programmer,sp12,0
+other,The Bus Pirate,buspirate,0
+other,The Bus Pirate (bitbang interface supports TPI),buspirate_bb,0
+other,TIAO USB Multi-Protocol Adapter,tumpa,0
+other,uncompatino with all pairs of pins shorted,uncompatino,0
+other,Wiring,wiring,0
+other,Xilinx JTAG cable,xil,0
+STK Series,STK200,stk200,0
+STK Series,STK500,stk500,1
+STK Series,STK500 Version1.xfirmware,stk500v1,0
+STK Series,STK500 Version2.xfirmware,stk500v2,0
+STK Series,STK500V2(high-voltage serial programming mode),stk500hvsp,0
+STK Series,STK500V2(parallel programming mode),stk500pp,0
+STK Series,STK600,stk600,0
+STK Series,STK600 (high-voltage serial programming mode),stk600hvsp,0
+STK Series,STK600 (parallel programming mode),stk600pp,0
