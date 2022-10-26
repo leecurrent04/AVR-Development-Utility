@@ -1,5 +1,15 @@
 # Update Log
 
+## 2022.10.26
+
+- Fix not to select parent item in device list.
+- Modify shortcuts of Tabs as alt + arrow keys.
+- Add new shortcut to focus device search: "/".
+- Add new shortcut to focus device list when return(enter) key is pressed in device search.
+- Add new function: scroll to item when device is selected.
+
+<br>
+
 ## 2022.10.25
 
 - Add new function: scroll to item when device name is searched.

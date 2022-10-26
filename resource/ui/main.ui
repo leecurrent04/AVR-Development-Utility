@@ -168,40 +168,9 @@
               <bool>false</bool>
              </property>
              <attribute name="title">
-              <string>&amp;Device</string>
+              <string>Device</string>
              </attribute>
              <layout class="QGridLayout" name="gridLayout_2">
-              <item row="3" column="0">
-               <widget class="QLineEdit" name="LE_DeviceSearch">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                  <horstretch>1</horstretch>
-                  <verstretch>1</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="acceptDrops">
-                 <bool>false</bool>
-                </property>
-                <property name="inputMethodHints">
-                 <set>Qt::ImhNone</set>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="maxLength">
-                 <number>40</number>
-                </property>
-                <property name="cursorPosition">
-                 <number>0</number>
-                </property>
-                <property name="placeholderText">
-                 <string>search</string>
-                </property>
-                <property name="clearButtonEnabled">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
               <item row="0" column="0">
                <widget class="QTreeWidget" name="TW_DeviceList">
                 <property name="sizePolicy">
@@ -252,16 +221,47 @@
                 </column>
                </widget>
               </item>
+              <item row="3" column="0">
+               <widget class="QLineEdit" name="LE_DeviceSearch">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                  <horstretch>1</horstretch>
+                  <verstretch>1</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="acceptDrops">
+                 <bool>false</bool>
+                </property>
+                <property name="inputMethodHints">
+                 <set>Qt::ImhNone</set>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="maxLength">
+                 <number>32767</number>
+                </property>
+                <property name="cursorPosition">
+                 <number>0</number>
+                </property>
+                <property name="placeholderText">
+                 <string>search</string>
+                </property>
+                <property name="clearButtonEnabled">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
             <widget class="QWidget" name="TAB_Fuse">
              <attribute name="title">
-              <string comment="List">&amp;Fuses</string>
+              <string comment="List">Fuses</string>
              </attribute>
             </widget>
             <widget class="QWidget" name="TAB_Lockbits">
              <attribute name="title">
-              <string>Lock &amp;bits</string>
+              <string>Lock bits</string>
              </attribute>
             </widget>
             <widget class="QWidget" name="TAB_Tool">
@@ -272,7 +272,7 @@
               </sizepolicy>
              </property>
              <attribute name="title">
-              <string>&amp;Tool</string>
+              <string>Tool</string>
              </attribute>
              <layout class="QGridLayout" name="gridLayout_6">
               <item row="0" column="0">
@@ -316,7 +316,7 @@
                    </sizepolicy>
                   </property>
                   <property name="text">
-                   <string>Delete</string>
+                   <string>&amp;Delete</string>
                   </property>
                  </widget>
                 </item>
@@ -339,7 +339,7 @@
                    </sizepolicy>
                   </property>
                   <property name="text">
-                   <string>Add Configure</string>
+                   <string>&amp;Add Configure</string>
                   </property>
                  </widget>
                 </item>
@@ -651,7 +651,7 @@
               </sizepolicy>
              </property>
              <attribute name="title">
-              <string>&amp;Libraries</string>
+              <string>Libraries</string>
              </attribute>
              <layout class="QGridLayout" name="gridLayout_5">
               <item row="1" column="1">
@@ -702,7 +702,7 @@
                    </font>
                   </property>
                   <property name="text">
-                   <string>Delete</string>
+                   <string>&amp;Delete</string>
                   </property>
                  </widget>
                 </item>
@@ -725,7 +725,7 @@
                    </sizepolicy>
                   </property>
                   <property name="text">
-                   <string>Library Add</string>
+                   <string>&amp;Add Library</string>
                   </property>
                  </widget>
                 </item>
@@ -735,7 +735,7 @@
             </widget>
             <widget class="QWidget" name="TAB_Preview">
              <attribute name="title">
-              <string>&amp;Preview</string>
+              <string>Preview</string>
              </attribute>
              <layout class="QGridLayout" name="gridLayout_7">
               <item row="0" column="0">
@@ -772,10 +772,7 @@
                    </sizepolicy>
                   </property>
                   <property name="text">
-                   <string>Make</string>
-                  </property>
-                  <property name="shortcut">
-                   <string>Ctrl+M</string>
+                   <string>&amp;Make</string>
                   </property>
                  </widget>
                 </item>

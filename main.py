@@ -52,13 +52,12 @@ class WindowMainClass(QMainWindow, form_main):
 
         # ================================================================================
         # Event
-        self.PB_PreviewMakeFile.clicked.connect(self.make_makefile)                 # make Makefile
-
         # (TAB) Device SET
         self.TW_DeviceList.currentItemChanged.connect(self.device_selected_inlist)  # AVR is selected or changed
         self.PB_SelectDirectory.clicked.connect(self.pb_select_directory_clicked)   # When PushB_Directory clicked
         self.LE_DeviceSearch.textChanged.connect(self.le_device_search_changed)     # When Avr_search changed
         self.PB_ToolPortReload.clicked.connect(self.tool_port_load)                 # When PushB_PortReload clicked
+        self.LE_DeviceSearch.returnPressed.connect(self.TW_DeviceList.setFocus)
 
         # (TAB) Library
         self.PB_LibraryAdd.clicked.connect(self.library_add)
@@ -73,6 +72,21 @@ class WindowMainClass(QMainWindow, form_main):
 
         # (TAB) Preview
         self.PB_PreviewLoadConfigure.clicked.connect(self.makefile_data_load)
+        self.PB_PreviewMakeFile.clicked.connect(self.make_makefile)                 # make Makefile
+
+        # Shortcut
+        QShortcut(QKeySequence("Alt+up"), self).activated.connect(
+            lambda: self.MainTab.setCurrentIndex(self.MainTab.currentIndex()-1)
+        )
+
+        QShortcut(QKeySequence("Alt+down"), self).activated.connect(
+            lambda: self.MainTab.setCurrentIndex(self.MainTab.currentIndex()+1)
+        )
+
+        QShortcut(QKeySequence("Alt+left"), self).activated.connect(self.shortcut_left_arrow)
+        QShortcut(QKeySequence("Alt+right"), self).activated.connect(self.shortcut_right_arrow)
+
+        QShortcut(QKeySequence("/"), self).activated.connect(self.shortcut_input)
 
     # ================================================================================
     # Select Project Directory(Using Dialog)
@@ -127,7 +141,7 @@ class WindowMainClass(QMainWindow, form_main):
                 # delete \n
                 tmp_data = line[:-1].split(",")
 
-                # code,category,name,datasheet,default
+                # Category, name, code, default
                 if int(tmp_data[3]):
                     self.CB_ToolModel.addItem(tmp_data[1])
                     self.CB_ToolModelCode.addItem(tmp_data[2])
@@ -137,9 +151,12 @@ class WindowMainClass(QMainWindow, form_main):
     # load selected AVR-name from the Tree and change label text
     def device_selected_inlist(self):
         tmp_device_name = self.TW_DeviceList.currentItem()
+        self.TW_DeviceList.scrollToItem(tmp_device_name)
+
         if tmp_device_name != None and tmp_device_name.text(0) != "":
-            self.LB_DeviceSelected.setText(tmp_device_name.text(0))
-            self.statusBar().showMessage((" %s is selected."%(tmp_device_name.text(0))))
+            if tmp_device_name.parent() != None:
+                self.LB_DeviceSelected.setText(tmp_device_name.text(0))
+                self.statusBar().showMessage((" %s is selected."%(tmp_device_name.text(0))))
 
     # ================================================================================
     # device search
@@ -153,9 +170,11 @@ class WindowMainClass(QMainWindow, form_main):
             # find top | child
             tmp_search = self.TW_DeviceList.findItems(self.LE_DeviceSearch.text(), Qt.MatchContains | Qt.MatchRecursive, 0)
             if tmp_search:
+                self.TW_DeviceList.scrollToItem(tmp_search[-1])
+                self.TW_DeviceList.setCurrentItem(tmp_search[-1])
+
                 for item in tmp_search:
                     item.setSelected(1)
-                    self.TW_DeviceList.scrollToItem(item)
 
                     # if item is already parent
                     try:
@@ -250,7 +269,7 @@ class WindowMainClass(QMainWindow, form_main):
                 self.statusBar().showMessage((" %s is deleted."%(tmp_selected_configure.text())))
 
     # ================================================================================
-    # load sub window
+    # Tool load sub window
 
     def tool_more_load(self):
         print("clicked")
@@ -338,6 +357,43 @@ class WindowMainClass(QMainWindow, form_main):
 
         else:
             self.statusBar().showMessage("You must define Work Directory")
+
+    # ================================================================================
+    # Shortcut
+    def shortcut_left_arrow(self):
+        tmp_index: int = self.MainTab.currentIndex()
+        if tmp_index == 0:
+            # check if current index in min value
+            if self.Programming.currentIndex != 0:
+                self.Programming.setCurrentIndex(self.Programming.currentIndex()-1)
+        elif tmp_index == 1:
+            if self.Information.currentIndex != 0:
+                self.Information.setCurrentIndex(self.Information.currentIndex()-1)
+
+    def shortcut_right_arrow(self):
+        tmp_index: int = self.MainTab.currentIndex()
+        if tmp_index == 0:
+            # check if current index is max value
+            if self.Programming.currentIndex != self.Programming.count()-1:
+                self.Programming.setCurrentIndex(self.Programming.currentIndex()+1)
+        elif tmp_index == 1:
+            if self.Information.currentIndex != self.Information.count()-1:
+                self.Information.setCurrentIndex(self.Information.currentIndex()+1)
+
+    def shortcut_input(self):
+        main_tab = self.MainTab.currentIndex()
+        if main_tab == 0:                   # Programming tab
+            programming_tab = self.Programming.currentIndex()
+
+            if programming_tab == 0:        # Device tab
+                self.LE_DeviceSearch.setFocus()
+            elif programming_tab == 3:      # Tool tab
+                self.LE_ToolSelect.setFocus()
+            elif programming_tab == 4:      # Library tab
+                self.LE_LibrarySelect.setFocus()
+            elif programming_tab == 5:      # Preview tab
+                self.TE_Preview.setFocus()
+        # elif main_tab == 1:
 
 
 class ToolWindow(QMainWindow, form_tool):
