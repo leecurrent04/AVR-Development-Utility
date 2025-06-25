@@ -24,6 +24,7 @@ form_main = uic.loadUiType(resource_path('main.ui'))[0]
 # global variable - consider moving this into the main window class if possible
 # workDirectory: str = "" # Moved to DeviceTab and passed via callback
 
+
 class WindowMainClass(QMainWindow, form_main):
     def __init__(self):
         super().__init__()
@@ -43,6 +44,101 @@ class WindowMainClass(QMainWindow, form_main):
         self.statusBar().showMessage(" Application Started")
 
         # ================================================================================
+
+        # Add widgets to the tabs
+        self._initProgammingTabs()
+        # self._initInformationTabs()
+
+
+        # Initial tab selection (can be done here or in individual tab modules if they need to update on activation)
+        self.MainTab.setCurrentIndex(0)
+        self.Programming.setCurrentIndex(0)
+        self.Information.setCurrentIndex(0) # Assuming Information tab is empty or handled separately
+
+        # ================================================================================
+        # Shortcut (can remain in main if they control main window tabs directly)
+        self._initShortKeys()
+
+
+    def update_status_bar(self, message):
+        """Callback function to update the main window's status bar."""
+        self.statusBar().showMessage(message)
+
+    # Callbacks to get data from other tabs for the Preview tab
+    def get_selected_device_code(self):
+        return self.device_tab.LB_DeviceSelected.text()
+
+    def get_library_list_items(self):
+        items = []
+        for i in range(self.library_tab.LW_LibraryIncludeList.count()):
+            items.append(self.library_tab.LW_LibraryIncludeList.item(i))
+        return items
+
+    def get_tool_list_items(self):
+        items = []
+        for i in range(self.tool_tab.LW_ToolConfigureList.count()):
+            items.append(self.tool_tab.LW_ToolConfigureList.item(i))
+        return items
+
+    def get_work_directory_path(self):
+        return self.device_tab.workDirectory
+
+    # ================================================================================
+    # Shortcut (retained in main as they control main window tabs directly)
+    def _bindShortkeyLeft(self):
+        tmp_index: int = self.MainTab.currentIndex()
+        if tmp_index == 0:  # Programming tab
+            current_prog_index = self.Programming.currentIndex()
+            if current_prog_index > 0:
+                self.Programming.setCurrentIndex(current_prog_index - 1)
+        elif tmp_index == 1:  # Information tab
+            current_info_index = self.Information.currentIndex()
+            if current_info_index > 0:
+                self.Information.setCurrentIndex(current_info_index - 1)
+
+    def _bindShortKeyRight(self):
+        tmp_index: int = self.MainTab.currentIndex()
+        if tmp_index == 0:  # Programming tab
+            current_prog_index = self.Programming.currentIndex()
+            if current_prog_index < self.Programming.count() - 1:
+                self.Programming.setCurrentIndex(current_prog_index + 1)
+        elif tmp_index == 1:  # Information tab
+            current_info_index = self.Information.currentIndex()
+            if current_info_index < self.Information.count() - 1:
+                self.Information.setCurrentIndex(current_info_index + 1)
+
+    def _bindShortkeySlash(self):
+        main_tab = self.MainTab.currentIndex()
+        if main_tab == 0:  # Programming tab
+            programming_tab = self.Programming.currentIndex()
+
+            match programming_tab:
+                case 0 : self.device_tab.LE_DeviceSearch.setFocus()
+                case 3:  self.tool_tab.LE_ToolSelect.setFocus()
+                case 4:  self.library_tab.LE_LibrarySelect.setFocus()
+                case 5:  self.preview_tab.TE_Preview.setFocus()
+
+    def _initShortKeys(self):
+        QShortcut(QKeySequence("Alt+up"), self).activated.connect(
+            lambda: self.MainTab.setCurrentIndex(self.MainTab.currentIndex()-1)
+        )
+        QShortcut(QKeySequence("Alt+down"), self).activated.connect(
+            lambda: self.MainTab.setCurrentIndex(self.MainTab.currentIndex()+1)
+        )
+        QShortcut(QKeySequence("Alt+left"), self).activated.connect(self._bindShortkeyLeft)
+        QShortcut(QKeySequence("Alt+right"), self).activated.connect(self._bindShortKeyRight)
+        QShortcut(QKeySequence("/"), self).activated.connect(self._bindShortkeySlash)
+
+
+    # Add widgets to the tabs
+    # Assuming your main.ui has QTabWidget named MainTab, Programming, Information
+    # And within those, specific pages for each tab content.
+    # You'll need to adapt this based on how your .ui is structured.
+    # For instance, if each tab in Programming is a QWidget in the designer,
+    # you can replace that QWidget with your custom tab instance.
+
+    # Example for replacing a placeholder widget in a tab (assuming `main.ui` has a QWidget named `device_placeholder_widget` on the Device tab):
+    def _initProgammingTabs(self):
         # Initialize and add tabs
         self.device_tab = DeviceTab(self, self.update_status_bar)
         self.library_tab = LibraryTab(self, self.update_status_bar)
@@ -56,14 +152,6 @@ class WindowMainClass(QMainWindow, form_main):
             self.get_work_directory_path
         )
 
-        # Add widgets to the tabs
-        # Assuming your main.ui has QTabWidget named MainTab, Programming, Information
-        # And within those, specific pages for each tab content.
-        # You'll need to adapt this based on how your .ui is structured.
-        # For instance, if each tab in Programming is a QWidget in the designer,
-        # you can replace that QWidget with your custom tab instance.
-
-        # Example for replacing a placeholder widget in a tab (assuming `main.ui` has a QWidget named `device_placeholder_widget` on the Device tab):
         # Find the index of the Device tab (e.g., Programming tab, first sub-tab)
         programming_tab_index = self.MainTab.indexOf(self.Programming) # Get index of Programming tab
         if programming_tab_index != -1:
@@ -91,88 +179,6 @@ class WindowMainClass(QMainWindow, form_main):
                 self.Programming.removeTab(3)
                 self.Programming.insertTab(3, self.preview_tab, "Preview")
 
-        # Or, if your tabs are empty, you can simply add them
-        # self.MainTab.addTab(self.device_tab, "Device SET")
-        # self.MainTab.addTab(self.library_tab, "Library")
-        # etc.
-
-        # Initial tab selection (can be done here or in individual tab modules if they need to update on activation)
-        self.MainTab.setCurrentIndex(0)
-        self.Programming.setCurrentIndex(0)
-        self.Information.setCurrentIndex(0) # Assuming Information tab is empty or handled separately
-
-        # ================================================================================
-        # Shortcut (can remain in main if they control main window tabs directly)
-        QShortcut(QKeySequence("Alt+up"), self).activated.connect(
-            lambda: self.MainTab.setCurrentIndex(self.MainTab.currentIndex()-1)
-        )
-        QShortcut(QKeySequence("Alt+down"), self).activated.connect(
-            lambda: self.MainTab.setCurrentIndex(self.MainTab.currentIndex()+1)
-        )
-        QShortcut(QKeySequence("Alt+left"), self).activated.connect(self.shortcut_left_arrow)
-        QShortcut(QKeySequence("Alt+right"), self).activated.connect(self.shortcut_right_arrow)
-        QShortcut(QKeySequence("/"), self).activated.connect(self.shortcut_input)
-
-    def update_status_bar(self, message):
-        """Callback function to update the main window's status bar."""
-        self.statusBar().showMessage(message)
-
-    # Callbacks to get data from other tabs for the Preview tab
-    def get_selected_device_code(self):
-        return self.device_tab.LB_DeviceSelected.text()
-
-    def get_library_list_items(self):
-        items = []
-        for i in range(self.library_tab.LW_LibraryIncludeList.count()):
-            items.append(self.library_tab.LW_LibraryIncludeList.item(i))
-        return items
-
-    def get_tool_list_items(self):
-        items = []
-        for i in range(self.tool_tab.LW_ToolConfigureList.count()):
-            items.append(self.tool_tab.LW_ToolConfigureList.item(i))
-        return items
-
-    def get_work_directory_path(self):
-        return self.device_tab.workDirectory
-
-    # ================================================================================
-    # Shortcut (retained in main as they control main window tabs directly)
-    def shortcut_left_arrow(self):
-        tmp_index: int = self.MainTab.currentIndex()
-        if tmp_index == 0:  # Programming tab
-            current_prog_index = self.Programming.currentIndex()
-            if current_prog_index > 0:
-                self.Programming.setCurrentIndex(current_prog_index - 1)
-        elif tmp_index == 1:  # Information tab
-            current_info_index = self.Information.currentIndex()
-            if current_info_index > 0:
-                self.Information.setCurrentIndex(current_info_index - 1)
-
-    def shortcut_right_arrow(self):
-        tmp_index: int = self.MainTab.currentIndex()
-        if tmp_index == 0:  # Programming tab
-            current_prog_index = self.Programming.currentIndex()
-            if current_prog_index < self.Programming.count() - 1:
-                self.Programming.setCurrentIndex(current_prog_index + 1)
-        elif tmp_index == 1:  # Information tab
-            current_info_index = self.Information.currentIndex()
-            if current_info_index < self.Information.count() - 1:
-                self.Information.setCurrentIndex(current_info_index + 1)
-
-    def shortcut_input(self):
-        main_tab = self.MainTab.currentIndex()
-        if main_tab == 0:  # Programming tab
-            programming_tab = self.Programming.currentIndex()
-
-            if programming_tab == 0:  # Device tab
-                self.device_tab.LE_DeviceSearch.setFocus()
-            elif programming_tab == 1:  # Library tab
-                self.library_tab.LE_LibrarySelect.setFocus()
-            elif programming_tab == 2:  # Tool tab
-                self.tool_tab.LE_ToolSelect.setFocus()
-            elif programming_tab == 3:  # Preview tab
-                self.preview_tab.TE_Preview.setFocus()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

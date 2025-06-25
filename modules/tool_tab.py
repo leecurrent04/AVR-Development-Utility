@@ -1,8 +1,11 @@
 import os
+import sys
+
+import serial.tools.list_ports
+
 from PyQt5 import uic
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QWidget, QComboBox
-import sys
 
 # Connect UI file (for ToolWindow if it uses a separate UI)
 def resource_path(relative_path):
@@ -33,7 +36,7 @@ class ToolTab(QWidget):
         self.second_tool_window = None # To hold the instance of ToolWindow
 
         self.setup_ui_elements()
-        self.tool_port_load()
+        self._load_port_info()
         self.bind_events()
 
     def setup_ui_elements(self):
@@ -59,7 +62,7 @@ class ToolTab(QWidget):
                     self.CB_ToolModelCode.addItem(tmp_data[2])
 
     def bind_events(self):
-        self.PB_ToolPortReload.clicked.connect(self.tool_port_load)
+        self.PB_ToolPortReload.clicked.connect(self._load_port_info)
         self.PB_ToolAddConfigure.clicked.connect(self.tool_add_configure)
         self.LW_ToolConfigureList.itemClicked.connect(self.tool_configure_select)
         self.PB_ToolDelConfigure.clicked.connect(self.tool_delete_configure)
@@ -97,15 +100,24 @@ class ToolTab(QWidget):
         self.second_tool_window.show()
         # You might want to handle data exchange with this sub-window here.
 
-    def tool_port_load(self):
+    def _load_port_info(self):
         self.CB_ToolPort.clear()
+
         try:
-            for i in os.listdir("/dev"):
-                if i.startswith("ttyUSB") or i.startswith("ttyACM"):
-                    self.CB_ToolPort.addItem(f"/dev/{i}")
-            if self.status_bar_callback:
-                self.status_bar_callback("Serial ports reloaded.")
+            if sys.platform == 'linux':
+                for i in os.listdir("/dev"):
+                    if i.startswith("ttyUSB") or i.startswith("ttyACM"):
+                        self.CB_ToolPort.addItem(f"/dev/{i}")
+                if self.status_bar_callback:
+                    self.status_bar_callback("Serial ports reloaded.")
+            elif 'win32':
+                # Linux에서도 사용할 수 있을 듯 해보이나, 테스트 필요
+                ports = serial.tools.list_ports.comports()
+                for port, desc, hwid in sorted(ports):
+                    self.CB_ToolPort.addItem(f"{desc}")
+
         except Exception as e:
             print(e)
             if self.status_bar_callback:
                 self.status_bar_callback(f"Error loading serial ports: {e}")
+
