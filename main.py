@@ -284,11 +284,15 @@ class WindowMainClass(QMainWindow, form_main):
     # Tool Port Load
     def tool_port_load(self):
         self.CB_ToolPort.clear()
+	
+        try:
+                # load Port
+                for i in os.listdir("/dev"):
+                        if i[0:6] == "ttyUSB" or i[0:6] == "ttyACM":
+                                self.CB_ToolPort.addItem("/dev/" + i)
 
-        # load Port
-        for i in os.listdir("/dev"):
-            if i[0:6] == "ttyUSB" or i[0:6] == "ttyACM":
-                self.CB_ToolPort.addItem("/dev/" + i)
+        except Exception as e:
+                print(e)
 
     # ================================================================================
     # (TAB) Preview
