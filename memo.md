@@ -1,5 +1,11 @@
 # Update Log
 
+## 2025.06.25
+
+- Add try-except to the port load function for developers using MS Windows.
+- Add new function to load device port information in Windows.
+- Modularized the all code.
+
 ## 2022.10.26
 
 - Fix not to select parent item in device list.
